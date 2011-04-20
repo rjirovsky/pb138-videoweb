@@ -1,0 +1,17 @@
+#labels Featured,Phase-Design
+=Zadání projektu=
+
+Oficiální zadání:
+
+Studenti navrhnou a implementují webovou aplikaci, která umožní správu domácí videotéky (DVD). Ke každému médiu si bude pamatovat:
+
+  * titul
+  * typ dvd - jedna hodnota z výčtu (originál, časopis, domácí, kopie)
+  * seznam titulů na DVD - každý titul = název a nepovinně hlavní představitel.
+
+Kartotéka bude umožňovat následující operace:
+  * Přidání média
+  * Odebrání média
+  * Výpis médií podle typu
+  * vyhledání média podle názvu titulu
+  * import dat ze souboru ve formátu ODF Spreadsheet
