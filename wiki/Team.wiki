@@ -1,0 +1,14 @@
+#labels Featured
+Projekt vyvíjí následující vývojáři:
+
+*Melkus Adam*, 374010 - webové rozhraní - HTML
+
+*Jirovský Radek*, 359705 - aplikační logika - DVD manažer
+
+*Kutil Jakub*, 256193 - XSLT Transformace
+
+*Quoc Tran Hoa*, 359768 - XML schéma, JSP
+
+Vedoucí:
+
+*Mgr. Luděk Bártek, Ph.D.*
