@@ -9,6 +9,10 @@ Projekt vyvíjí následující vývojáři:
 
 *Quoc Tran Hoa*, 359768 - XML schéma, JSP
 
-Vedoucí:
+Zadavatel projektu:
 
-*Mgr. Luděk Bártek, Ph.D.*
+*Luděk Bártek*
+
+Přednášející:
+
+*Tomáš Pitner, Luděk Bártek*
