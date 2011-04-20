@@ -1,18 +1,19 @@
 #labels Featured
-Projekt vyvíjí následující vývojáři:
+==Projekt vyvíjí následující vývojáři==
 
-*Melkus Adam*, 374010 - webové rozhraní - HTML
+  * *Melkus Adam*, 374010 - webové rozhraní - HTML
 
-*Jirovský Radek*, 359705 - aplikační logika - DVD manažer
+  * *Jirovský Radek*, 359705 - aplikační logika - DVD manažer
 
-*Kutil Jakub*, 256193 - XSLT Transformace
+  * *Kutil Jakub*, 256193 - XSLT Transformace
 
-*Quoc Tran Hoa*, 359768 - XML schéma, JSP
+  * *Quoc Tran Hoa*, 359768 - XML schéma, JSP
 
-Zadavatel projektu:
+==Zadavatel projektu==
 
-*Luděk Bártek*
+  * *Luděk Bártek*
 
-Přednášející:
+==Přednášející/cvičící==
 
-*Tomáš Pitner, Luděk Bártek*
+  * *Tomáš Pitner*
+  * *Luděk Bártek*
