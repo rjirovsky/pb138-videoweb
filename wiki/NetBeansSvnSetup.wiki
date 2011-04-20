@@ -1,0 +1,9 @@
+==Stručný návod na přidání SVN repozitáře a stažení projektu do NetBeans==
+
+*URL SVN repozitáře je:*
+
+https://pb138-videoweb.googlecode.com/svn/trunk/
+
+*Username je vas.email@gmail.com.*
+
+*Heslo si musíte vygenerovat [https://code.google.com/hosting/settings v nastavení hostingu].*
