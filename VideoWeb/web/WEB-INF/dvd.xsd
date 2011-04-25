@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified">
+        
+    <xsd:element name="dvd-library" type="dvd-libraryType">
+    </xsd:element>
+    
+    <!-- KNIHOVNA -->
+    <xsd:complexType name="dvd-libraryType">
+        <xsd:sequence>
+            <xsd:element name="dvd" type="dvdType" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- DVD TYP -->
+    <xsd:complexType name="dvdType">
+        <xsd:all>
+            <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="type" type="typeType" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="titles" type="titlesType" minOccurs="1" maxOccurs="1" />
+        </xsd:all>
+    </xsd:complexType>
+
+   <!-- VÝČET TYPŮ -->
+   <xsd:simpleType name="typeType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="originál|časopis|domácí|kopie" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <!-- TITULY -->
+    <xsd:complexType name="titlesType">
+        <xsd:sequence>
+            <xsd:element name="title" type="titleType" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- TITUL -->
+    <xsd:complexType name="titleType">
+        <xsd:sequence>
+            <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="representative" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+</xsd:schema>
