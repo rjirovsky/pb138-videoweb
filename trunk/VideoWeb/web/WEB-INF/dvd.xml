@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : dvd.xml
+    Created on : April 25, 2011, 7:23 PM
+    Author     : Adam
+    Description:
+        Purpose of the document follows.
+-->
+<dvd-library xsi:noNamespaceSchemaLocation="dvd.xsd" xmlns=""
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <dvd>
+        <name>Dývko 1</name>
+        <type>originál</type>
+        <titles>
+            <title>
+                <name>Film 1</name>
+                <representative>Herec filmu 1</representative>
+            </title>
+            <title>
+                <name>Film 2</name>
+                <representative>Herec filmu 2</representative>
+            </title>
+            <title>
+                <name>Film 3</name>
+                <representative>Herec filmu 3</representative>
+            </title>
+        </titles>
+    </dvd>
+    
+    <dvd>
+        <name>Dývko 2</name>
+        <type>časopis</type>
+        <titles>
+            <title>
+                <name>Časopis 1</name>
+            </title>
+            <title>
+                <name>Časopis 2</name>
+            </title>
+        </titles>
+    </dvd>
+    
+    <dvd>
+        <name>Dývko 3</name>
+        <type>domácí</type>
+        <titles>
+            <title>
+                <name>Seriál</name>
+            </title>
+            <title>
+                <name>Film</name>
+                <representative>Herec filmu</representative>
+            </title>
+            <title>
+                <name>Časopis</name>
+            </title>
+        </titles>
+    </dvd>
+
+    <dvd>
+        <name>Dývko 4</name>
+        <type>kopie</type>
+        <titles>
+            <title>
+                <name>Seriál</name>
+            </title>
+            <title>
+                <name>Film</name>
+                <representative>Herec filmu</representative>
+            </title>
+            <title>
+                <name>Časopis</name>
+            </title>
+        </titles>
+    </dvd>
+</dvd-library>
