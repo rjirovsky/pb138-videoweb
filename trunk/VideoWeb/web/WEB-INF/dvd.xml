@@ -9,7 +9,7 @@
 -->
 <dvd-library xsi:noNamespaceSchemaLocation="dvd.xsd" xmlns=""
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <dvd>
+    <dvd id="1">
         <name>Pán prstenů</name>
         <type>originál</type>
         <titles>
@@ -28,7 +28,7 @@
         </titles>
     </dvd>
     
-    <dvd>
+    <dvd id="2">
         <name>Tropa de Elite</name>
         <type>časopis</type>
         <titles>
@@ -41,7 +41,7 @@
         </titles>
     </dvd>
     
-    <dvd>
+    <dvd id="3">
         <name>Dovolená v Karibiku</name>
         <type>domácí</type>
         <titles>
@@ -58,7 +58,7 @@
         </titles>
     </dvd>
 
-    <dvd>
+    <dvd id="4">
         <name>Simpsonovi</name>
         <type>kopie</type>
         <titles>

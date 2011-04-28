@@ -4,6 +4,10 @@
     elementFormDefault="qualified">
         
     <xsd:element name="dvd-library" type="dvd-libraryType">
+        <xsd:unique name="uniqueID">
+            <xsd:selector xpath="dvd"/>
+                <xsd:field xpath="@id"/>
+        </xsd:unique>
     </xsd:element>
     
     <!-- KNIHOVNA -->
@@ -20,6 +24,7 @@
             <xsd:element name="type" type="typeType" minOccurs="1" maxOccurs="1" />
             <xsd:element name="titles" type="titlesType" minOccurs="1" maxOccurs="1" />
         </xsd:all>
+        <xsd:attribute name="id" type="xsd:unsignedLong" use="required"/>
     </xsd:complexType>
 
    <!-- VÝČET TYPŮ -->
