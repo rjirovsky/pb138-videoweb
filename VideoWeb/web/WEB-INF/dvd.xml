@@ -10,67 +10,67 @@
 <dvd-library xsi:noNamespaceSchemaLocation="dvd.xsd" xmlns=""
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <dvd>
-        <name>Dývko 1</name>
+        <name>Pán prstenů</name>
         <type>originál</type>
         <titles>
             <title>
-                <name>Film 1</name>
-                <representative>Herec filmu 1</representative>
+                <name>Pán Prstenů : Společenstvo prstenu</name>
+                <representative>Elijah Wood</representative>
             </title>
             <title>
-                <name>Film 2</name>
-                <representative>Herec filmu 2</representative>
+                <name>Pán Prstenů : Dvě věže</name>
+                <representative>Ian McKellen</representative>
             </title>
             <title>
-                <name>Film 3</name>
-                <representative>Herec filmu 3</representative>
+                <name>Pán Prstenů : Návrat krále</name>
+                <representative>Viggo Mortensen</representative>
             </title>
         </titles>
     </dvd>
     
     <dvd>
-        <name>Dývko 2</name>
+        <name>Tropa de Elite</name>
         <type>časopis</type>
         <titles>
             <title>
-                <name>Časopis 1</name>
+                <name>Tropa de Elite I</name>
             </title>
             <title>
-                <name>Časopis 2</name>
+                <name>Tropa de Elite II</name>
             </title>
         </titles>
     </dvd>
     
     <dvd>
-        <name>Dývko 3</name>
+        <name>Dovolená v Karibiku</name>
         <type>domácí</type>
         <titles>
             <title>
-                <name>Seriál</name>
+                <name>Výlet na lodi</name>
             </title>
             <title>
-                <name>Film</name>
-                <representative>Herec filmu</representative>
+                <name>4 hodiny ve výtahu</name>
+                <representative>Já</representative>
             </title>
             <title>
-                <name>Časopis</name>
+                <name>Potápění</name>
             </title>
         </titles>
     </dvd>
 
     <dvd>
-        <name>Dývko 4</name>
+        <name>Simpsonovi</name>
         <type>kopie</type>
         <titles>
             <title>
-                <name>Seriál</name>
+                <name>Simpsonovi série 20</name>
             </title>
             <title>
-                <name>Film</name>
-                <representative>Herec filmu</representative>
+                <name>Simpsonovi ve filmu</name>
+                <representative>Homer Simpson</representative>
             </title>
             <title>
-                <name>Časopis</name>
+                <name>Simpsonovi série 21</name>
             </title>
         </titles>
     </dvd>
