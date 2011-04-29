@@ -11,7 +11,3 @@ Program bude rozdělen do několika logických částí:
 *Class diagram:*
 
 <img src="http://pb138-videoweb.googlecode.com/files/classDiagram.jpg" alt="class diagram">
-
-{{{
-verbatim code block
-}}}
