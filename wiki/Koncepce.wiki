@@ -8,6 +8,6 @@ Program bude rozdělen do několika logických částí:
 
   # *VideoWebServlet* - (Java) zpracovává vstupy od uživatele a generuje ze získaných XHTML dat od VideoWebManageru obsah JSP stránek  (výpisy nalezench DVD apod.).
 
-*Class diagram:*
+*Class diagram (zastaralý):*
 
 <img src="http://pb138-videoweb.googlecode.com/files/classDiagram.jpg" alt="class diagram">
