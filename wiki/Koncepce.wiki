@@ -12,4 +12,4 @@ Program bude rozdělen do několika logických částí:
 
 Class diagram:
 
-[classDiagram.jpg]
+<img src="classDiagram.jpg" alt="class diagram">
