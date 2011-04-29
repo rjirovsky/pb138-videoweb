@@ -1,10 +1,10 @@
-#Logický návrh aplikace
+#logický návrh aplikace
 
 = Základní koncepce projektu =
 
 Program bude rozdělen do několika logických částí:
 
-  # *DvdManager* - manažer práce s XML: (Java) má na starosti přidávání, editaci, odebírání DVD z XML souboru, dále získávání záznamů z XML podle zadaných kritérií pomocí XQuery. Získané záznamy budou vráceny v XML formátu v OutputStreamu.
+  # *DvdManager * - manažer práce s XML: (Java) má na starosti přidávání, editaci, odebírání DVD z XML souboru, dále získávání záznamů z XML podle zadaných kritérií pomocí XQuery. Získané záznamy budou vráceny v XML formátu v OutputStreamu.
 
   # *VideoWebManager* - manažer DVD knihovny: (Java) ovládá DvdManager, spouští transformace XML to XHTML a vrací XHTML OutputStream servletu, zachytává vyjímky - vrací chybové hlášky pro uživatele (DVD nenalezeno apod.).
 
