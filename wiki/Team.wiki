@@ -1,13 +1,13 @@
 #labels Featured
 ==Projekt vyvíjí následující vývojáři==
 
-  * *Melkus Adam*, 374010 - webové rozhraní - HTML
+  * *Melkus Adam*, 374010 - webové rozhraní (CSS), XSLT Transformace
 
-  * *Jirovský Radek*, 359705 - aplikační logika - DVD manažer
+  * *Jirovský Radek*, 359705 - DVD manažer CRUD
 
-  * *Kutil Jakub*, 256193 - XSLT Transformace
+  * *Kutil Jakub*, 256193 - DVD manager - get metody (xquery)
 
-  * *Quoc Tran Hoa*, 359768 - XML schéma, JSP
+  * *Quoc Tran Hoa*, 359768 - webové rozhraní JSP/Servlets
 
 ==Zadavatel projektu==
 
