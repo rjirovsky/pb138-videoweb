@@ -1,6 +1,6 @@
 package cz.muni.fi.pb138.jaro2011.videoweb;
 
-import java.util.Collection;
+import java.io.OutputStream;
 
 /**
  *
@@ -19,27 +19,32 @@ public class DvdManagerImpl implements DvdManager{
     }
 
     @Override
-    public void deleteDvd(Dvd dvd) {
+    public void deleteDvd(String name) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public Dvd getDvdById(long id) {
+    public void deleteDvd(long id) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    @Override
+    public OutputStream getDvdById(long id) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public Collection<Dvd> getAllDvds() {
+    public OutputStream getAllDvds() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public Collection<Dvd> getDvdByType(Type type) {
+    public OutputStream getDvdByType(Type type) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public Collection<Dvd> getDvdByName(String name) {
+    public OutputStream getDvdByName(String name) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     

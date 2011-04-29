@@ -1,6 +1,6 @@
 package cz.muni.fi.pb138.jaro2011.videoweb;
 
-import java.util.Collection;
+import java.io.OutputStream;
 
 /**
  *
@@ -12,15 +12,17 @@ public interface DvdManager {
     
     public void updateDvd(Dvd dvd);
     
-    public void deleteDvd(Dvd dvd);
+    public void deleteDvd(String name);
     
-    public Dvd getDvdById(long id);
+    public void deleteDvd(long id);
     
-    public Collection<Dvd> getAllDvds();
+    public OutputStream getDvdById(long id);
     
-    public Collection<Dvd> getDvdByType(Type type);
+    public OutputStream getAllDvds();
     
-    public Collection<Dvd> getDvdByName(String name);
+    public OutputStream getDvdByType(Type type);
+    
+    public OutputStream getDvdByName(String name);
     
     
 }
