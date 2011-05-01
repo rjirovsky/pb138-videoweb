@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <link href="css/style.css" rel="stylesheet" type="text/css" media="screen" />
+        <title>VideoWeb</title>
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1>VideoWeb - přidat DVD</h1>
+            <fieldset id="addDVD">
+                <legend>nové DVD</legend>
+                <form>
+                    <label id="name">Jméno: </label>
+                    <input type="text" name="name"/>
+                    <br/>
+                    <label id="type">Typ: </label>
+                    <select name="type">
+                        <option value="originál">originál</option>
+                        <option value="časopis">časopis</option>
+                        <option value="domácí">domácí</option>
+                        <option value="kopie">kopie</option>
+                    </select>
+                    <br/>
+                    <fieldset>
+                        <legend>titul</legend>
+                        <label id="titleName">Název</label>
+                        <input type="text" name="titleName"/>
+                        <label id="titleRepresentative">Hlavní představitel</label>
+                        <input type="text" name="titleRepresentative"/>
+                    </fieldset>
+                    <input type="submit" value="Odeslat"/>
+                    <input type="reset" value="Reset"/>
+                </form>
+            </fieldset>
+        </div>
+    </body>
+</html>

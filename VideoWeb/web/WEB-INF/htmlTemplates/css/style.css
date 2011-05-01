@@ -1,0 +1,74 @@
+/* 
+    Document   : style
+    Created on : May 1, 2011, 10:42:37 AM
+    Author     : Adam
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+.dvd { 
+    border: 1px solid #E2E1CB;
+    width: 500px;
+    margin-bottom: 10px;
+}
+
+.dvd ul{
+    list-style: none;
+}
+
+/* hlavička */
+.head{
+    width: 500px;
+    height: auto;
+    float:left;
+    margin-bottom: 10px;
+}
+
+/* název dvd */
+.name{
+    background-color: #F8F7DE;
+    width: auto;
+    height: auto;
+    padding: 5px;
+    border-bottom: 1px solid #E2E1CB;
+    border-right: 1px solid #E2E1CB;
+    float: left;
+    font-size: 20px;
+    font-family: Geneva,Arial,Helvetica,sans-serif;
+    color: #1E5EB6;
+}
+
+/* typ dvd */
+.type{
+    float:right;
+    border-bottom: 1px solid #E2E1CB;
+    border-left: 1px solid #E2E1CB;
+    padding: 5px;
+    background-color: #1E5EB6;
+    color: #F8F7DE;
+    width: 50px;
+    text-align: center;
+   
+}
+
+/*  */
+#wrapper {
+    width: 500px;
+    margin: auto;
+}
+
+/*  */
+#addDVD{
+    width: 500px;
+    border: 1px solid black;
+    
+}
+
+#addDVD legend{
+    border: 1px solid black;
+}
