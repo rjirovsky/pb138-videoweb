@@ -6,7 +6,8 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <link href="css/style.css" rel="stylesheet" type="text/css" media="screen" />
+        <link href="inc/style.css" rel="stylesheet" type="text/css" media="screen" />
+        <script type="text/javascript" src="inc/script.js"></script>
         <title>VideoWeb</title>
     </head>
     <body>
@@ -15,23 +16,30 @@ and open the template in the editor.
             <fieldset id="addDVD">
                 <legend>nové DVD</legend>
                 <form>
-                    <label id="name">Jméno: </label>
-                    <input type="text" name="name"/>
+                    <label for="name">Jméno: </label>
+                    <input type="text" name="name" id="name"/>
                     <br/>
-                    <label id="type">Typ: </label>
-                    <select name="type">
+                    <label for="type">Typ: </label>
+                    <select name="type" id="type">
                         <option value="originál">originál</option>
                         <option value="časopis">časopis</option>
                         <option value="domácí">domácí</option>
                         <option value="kopie">kopie</option>
                     </select>
                     <br/>
-                    <fieldset>
+                    <fieldset id="titles">
                         <legend>titul</legend>
-                        <label id="titleName">Název</label>
-                        <input type="text" name="titleName"/>
-                        <label id="titleRepresentative">Hlavní představitel</label>
-                        <input type="text" name="titleRepresentative"/>
+                        <input type="hidden" name="titleCounter" id="titleCounter" value="1"/>
+                        <input type="button" value="Přidat titul" onclick="addField('titleName_', 'titleRepresentative_','titles',10);" />
+                        <input type="button" value="Odebrat titul" onclick="removeField();" />
+                        <br/>
+                        <div class="titleInput">
+                            <label for="titleName_1">Název: </label>
+                            <input type="text" name="titleName_1" id="titleName_1"/>
+                            <label for="titleRepresentative_1">Hlavní představitel: </label>                      
+                            <input type="text" name="titleRepresentative_1" id="titleRepresentative_1"/>
+                            <br/>
+                        </div>
                     </fieldset>
                     <input type="submit" value="Odeslat"/>
                     <input type="reset" value="Reset"/>
