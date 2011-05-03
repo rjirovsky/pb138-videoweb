@@ -63,12 +63,14 @@
 }
 
 /*  */
-#addDVD{
-    width: 500px;
-    border: 1px solid black;
-    
+fieldset{
+    border: 1px solid black; 
 }
 
-#addDVD legend{
+#addDvd {
+    width: 500px;
+}
+
+fieldset legend{
     border: 1px solid black;
 }
