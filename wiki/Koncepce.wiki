@@ -6,12 +6,12 @@ Program bude rozdělen do několika logických částí:
   # *VideoWebManager* - manažer DVD knihovny: (Java) ovládá DvdManager, spouští transformace XML to XHTML a vrací XHTML Document a ten předá  servletu. Umožňuje import dat z ODF Spreadsheet dokumentu (pomocí Simple Java API for ODF).
   # *VideoWebServlet* - (Java) zpracovává vstupy od uživatele a generuje ze získaných XHTML dat od VideoWebManageru obsah JSP stránek  (výpisy nalezench DVD apod.).
   # *JSP stránky:*
-  *index.jsp - hlavní stránka s odkazy na další akce
-  *list.jsp - výpis všech dvd, u kazdého dvd je možnost editace nebo smazání
-  *add.jsp - formulář pro přidání nového dvd
-  *edit.jsp - formulář pro editaci dvd
-  *import.jsp - formulář s opendialogem pro výběr ODS souboru se seznamem dvd
-  *případně další HTML stránky pro úpravu layoutu (header, footer, sidebar)
+  * index.jsp - hlavní stránka s odkazy na další akce
+  * list.jsp - výpis všech dvd, u kazdého dvd je možnost editace nebo smazání
+  * add.jsp - formulář pro přidání nového dvd
+  * edit.jsp - formulář pro editaci dvd
+  * import.jsp - formulář s opendialogem pro výběr ODS souboru se seznamem dvd
+  * případně další HTML stránky pro úpravu layoutu (header, footer, sidebar)
  
 
 *Class diagram:*
