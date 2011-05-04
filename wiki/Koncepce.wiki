@@ -2,13 +2,10 @@
 
 Program bude rozdělen do několika logických částí:
 
-  1. *DvdManager* - manažer práce s XML databází (Java) má na starosti přidávání, editaci, odebírání DVD z XML databáze, dále získávání záznamů z XML podle zadaných kritérií pomocí XQuery. Získané záznamy budou vráceny v XML dokumentu (dat. typ Document).
-
-  2. *VideoWebManager* - manažer DVD knihovny: (Java) ovládá DvdManager, spouští transformace XML to XHTML a vrací XHTML Document a ten předá  servletu. Umožňuje import dat z ODF Spreadsheet dokumentu (pomocí Simple Java API for ODF).
-
-  3. *VideoWebServlet* - (Java) zpracovává vstupy od uživatele a generuje ze získaných XHTML dat od VideoWebManageru obsah JSP stránek  (výpisy nalezench DVD apod.).
-
-  4. *JSP stránky:*
+  # *DvdManager* - manažer práce s XML databází (Java) má na starosti přidávání, editaci, odebírání DVD z XML databáze, dále získávání záznamů z XML podle zadaných kritérií pomocí XQuery. Získané záznamy budou vráceny v XML dokumentu (dat. typ Document).
+  # *VideoWebManager* - manažer DVD knihovny: (Java) ovládá DvdManager, spouští transformace XML to XHTML a vrací XHTML Document a ten předá  servletu. Umožňuje import dat z ODF Spreadsheet dokumentu (pomocí Simple Java API for ODF).
+  # *VideoWebServlet* - (Java) zpracovává vstupy od uživatele a generuje ze získaných XHTML dat od VideoWebManageru obsah JSP stránek  (výpisy nalezench DVD apod.).
+  # *JSP stránky:*
   *index.jsp - hlavní stránka s odkazy na další akce
   *list.jsp - výpis všech dvd, u kazdého dvd je možnost editace nebo smazání
   *add.jsp - formulář pro přidání nového dvd
