@@ -19,3 +19,18 @@ Program bude rozdělen do několika logických částí:
 <img src="http://pb138-videoweb.googlecode.com/files/classDiagram2.jpg" alt="class diagram">
 
 *Návrh designu www stránek:*
+Úvod:
+<img src="http://pb138-videoweb.googlecode.com/files/uvod.png" alt="uvod">
+
+
+Dialog na přidání dvd:
+<img src="http://pb138-videoweb.googlecode.com/files/pridatDVD.png" alt="add dvd">
+
+
+Seznam DVD:
+<img src="http://pb138-videoweb.googlecode.com/files/seznamDVD.png" alt="list of dvds">
+
+
+Dialog na import ze souboru:
+
+<img src="http://pb138-videoweb.googlecode.com/files/importZODF.png" alt="import">
