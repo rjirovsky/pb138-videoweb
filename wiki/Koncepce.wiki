@@ -21,6 +21,7 @@ Program bude rozdělen do několika logických částí:
 *Návrh designu www stránek:*
 
 Úvod:
+
 <img src="http://pb138-videoweb.googlecode.com/files/uvod.png" alt="uvod">
 
 
