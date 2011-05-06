@@ -19,6 +19,7 @@ Program bude rozdělen do několika logických částí:
 <img src="http://pb138-videoweb.googlecode.com/files/classDiagram2.jpg" alt="class diagram">
 
 *Návrh designu www stránek:*
+
 Úvod:
 <img src="http://pb138-videoweb.googlecode.com/files/uvod.png" alt="uvod">
 
