@@ -18,7 +18,7 @@
     <xsl:template match="dvd-library">
         <html>
             <head>
-                <link href="css/style.css" rel="stylesheet" type="text/css" media="screen" /> 
+                <link href="inc/style.css" rel="stylesheet" type="text/css" media="screen" /> 
                 <title>Knihovna DVD</title>
             </head>
             <body>
@@ -41,12 +41,25 @@
             <ul>
                 <xsl:apply-templates select="titles"/>
             </ul>
+            <xsl:element name="a">
+                <xsl:attribute name="href">#<xsl:value-of select="@id"/></xsl:attribute>
+                <img src="inc/edit.png" alt="edit"/>
+            </xsl:element>
+            <xsl:element name="a">
+                <xsl:attribute name="href">#<xsl:value-of select="@id"/></xsl:attribute>
+                <img src="inc/del.png" alt="delete"/>
+            </xsl:element>
         </div>
     </xsl:template>
     
     <xsl:template match="title">
         <li>
-            <xsl:value-of select="name"/><xsl:if test="representative"> (<b><xsl:value-of select="representative"/></b>)</xsl:if>
+            <xsl:value-of select="name"/>
+            <xsl:if test="representative"> (
+                <b>
+                    <xsl:value-of select="representative"/>
+                </b>)
+            </xsl:if>
         </li>
     </xsl:template>
 

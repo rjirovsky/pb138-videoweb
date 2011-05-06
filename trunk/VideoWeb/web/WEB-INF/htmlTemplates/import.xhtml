@@ -12,7 +12,7 @@ and open the template in the editor.
     <body>
         <div id="wrapper">
             <div id="head">
-                <h1>VideoWeb</h1>
+                <h1>VideoWeb - import seznamu dvd z odf</h1>
             </div>
             <div id="menu">
                 <h3>Nabídka</h3>
@@ -24,9 +24,16 @@ and open the template in the editor.
                 </ul>
             </div>
             <div id="content">
-                <h1>Vítejte ve Vaší domácí videotéce</h1>
-                <p>dnes je {DATUM}</p>
-                <p>počet dvd ve vaší sbírce je: {POČET}</p>
+                <fieldset>
+                    <legend>Import seznamu</legend>
+                    <form action="import.xmtl">
+                        <input type="file"/><br/>
+                        <br/>
+                        <input type="submit" value="Odeslat" name="submitFile"/>
+                        <input type="reset" value="Vymazat" name="reset"/>
+                       
+                    </form>
+                </fieldset>
             </div>
             <div id="footer">
                 PATA
