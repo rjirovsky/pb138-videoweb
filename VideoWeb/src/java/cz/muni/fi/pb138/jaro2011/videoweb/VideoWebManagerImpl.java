@@ -29,22 +29,22 @@ public class VideoWebManagerImpl implements VideoWebManager {
     }
 
     @Override
-    public Collection<Dvd> searchDvdByName(String name) {
+    public Collection<Dvd> getDvdByName(String name) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public Collection<Dvd> searchDvdByType(Type type) {
+    public Collection<Dvd> getDvdByType(Type type) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public Collection<Dvd> searchAllDvds() {
+    public Collection<Dvd> getAllDvds() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public boolean importFilmsFromODF(File input) {
+    public boolean importDvdsFromODF(File input) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     

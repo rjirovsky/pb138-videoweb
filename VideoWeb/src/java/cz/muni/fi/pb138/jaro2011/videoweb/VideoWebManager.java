@@ -15,12 +15,12 @@ public interface VideoWebManager {
     
     public boolean deleteDvd(Dvd dvd);
     
-    public Collection<Dvd> searchDvdByName(String name);
+    public Collection<Dvd> getDvdByName(String name);
     
-    public Collection<Dvd> searchDvdByType(Type type);
+    public Collection<Dvd> getDvdByType(Type type);
     
-    public Collection<Dvd> searchAllDvds();
+    public Collection<Dvd> getAllDvds();
     
-    public boolean importFilmsFromODF(File input);
+    public boolean importDvdsFromODF(File input);
     
 }
