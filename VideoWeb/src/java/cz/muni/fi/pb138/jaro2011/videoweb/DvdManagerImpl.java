@@ -1,6 +1,5 @@
 package cz.muni.fi.pb138.jaro2011.videoweb;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -8,16 +7,11 @@ import java.util.logging.Logger;
 import javax.xml.transform.OutputKeys;
 import org.exist.xmldb.XQueryService;
 import org.w3c.dom.Document;
-import org.w3c.dom.DocumentFragment;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 import org.xmldb.api.DatabaseManager;
 import org.xmldb.api.base.Collection;
 import org.xmldb.api.base.CompiledExpression;
 import org.xmldb.api.base.Database;
-import org.xmldb.api.base.Resource;
-import org.xmldb.api.base.ResourceIterator;
 
 import org.xmldb.api.base.ResourceSet;
 import org.xmldb.api.base.XMLDBException;
@@ -45,6 +39,11 @@ public class DvdManagerImpl implements DvdManager {
 
     @Override
     public void createDvd(Dvd dvd) {
+
+        if (dvd == null) {
+            throw new IllegalArgumentException("DVD cannot be null!");
+        }
+
         Collection col = null;
 
         try {
@@ -58,6 +57,9 @@ public class DvdManagerImpl implements DvdManager {
                     + "into //dvd-library");
             ResourceSet result = xqs.execute(compiled);
 
+            if (result.getSize() == 0) {
+                Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.INFO, "Dvd nebylo nalezeno v DB!");
+            }
 
         } catch (XMLDBException ex) {
             Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -66,8 +68,9 @@ public class DvdManagerImpl implements DvdManager {
             if (col != null) {
                 try {
                     col.close();
-                } catch (XMLDBException xe) {
-                    xe.printStackTrace();
+                } catch (XMLDBException ex) {
+                    Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE,
+                            "Chyba při uvolňování zdrojů!", ex);
                 }
             }
         }
@@ -76,6 +79,10 @@ public class DvdManagerImpl implements DvdManager {
 
     @Override
     public void updateDvd(Dvd dvd) {
+        if (dvd == null) {
+            throw new IllegalArgumentException("DVD cannot be null!");
+        }
+
         Collection col = null;
 
         try {
@@ -84,10 +91,13 @@ public class DvdManagerImpl implements DvdManager {
             XQueryService xqs = (XQueryService) col.getService("XQueryService", "1.0");
             xqs.setProperty("indent", "yes");
 
-            
-            CompiledExpression compiled = xqs.compile("update replace //dvd[@id = '" + dvd.getId() +"'] with " + dvdToXml(dvd));
+
+            CompiledExpression compiled = xqs.compile("update replace //dvd[@id = '" + dvd.getId() + "'] with " + dvdToXml(dvd));
             ResourceSet result = xqs.execute(compiled);
 
+            if (result.getSize() == 0) {
+                Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.INFO, "Dvd nebylo nalezeno v DB!");
+            }
 
         } catch (XMLDBException ex) {
             Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -96,8 +106,9 @@ public class DvdManagerImpl implements DvdManager {
             if (col != null) {
                 try {
                     col.close();
-                } catch (XMLDBException xe) {
-                    xe.printStackTrace();
+                } catch (XMLDBException ex) {
+                    Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE,
+                            "Chyba při uvolňování zdrojů!", ex);
                 }
             }
         }
@@ -105,7 +116,7 @@ public class DvdManagerImpl implements DvdManager {
 
     @Override
     public void deleteDvd(String name) {
-        
+
         Collection col = null;
 
         try {
@@ -114,20 +125,23 @@ public class DvdManagerImpl implements DvdManager {
             XQueryService xqs = (XQueryService) col.getService("XQueryService", "1.0");
             xqs.setProperty("indent", "yes");
 
-            
-            CompiledExpression compiled = xqs.compile("update delete //dvd[name = '" + name +"']");
-            ResourceSet result = xqs.execute(compiled);
 
+            CompiledExpression compiled = xqs.compile("update delete //dvd[name = '" + name + "']");
+            ResourceSet result = xqs.execute(compiled);
+            if (result.getSize() == 0) {
+                Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.INFO, "Dvd nebylo nalezeno v DB!");
+            }
 
         } catch (XMLDBException ex) {
-            Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE, "Chyba při mazání dvd!", ex);
         } finally {
             //dont forget to cleanup
             if (col != null) {
                 try {
                     col.close();
-                } catch (XMLDBException xe) {
-                    xe.printStackTrace();
+                } catch (XMLDBException ex) {
+                    Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE,
+                            "Chyba při uvolňování zdrojů!", ex);
                 }
             }
         }
@@ -135,7 +149,7 @@ public class DvdManagerImpl implements DvdManager {
 
     @Override
     public void deleteDvd(long id) {
-    
+
         Collection col = null;
 
         try {
@@ -144,20 +158,23 @@ public class DvdManagerImpl implements DvdManager {
             XQueryService xqs = (XQueryService) col.getService("XQueryService", "1.0");
             xqs.setProperty("indent", "yes");
 
-            
-            CompiledExpression compiled = xqs.compile("update delete //dvd[@id = '" + id +"']");
-            ResourceSet result = xqs.execute(compiled);
 
+            CompiledExpression compiled = xqs.compile("update delete //dvd[@id = '" + id + "']");
+            ResourceSet result = xqs.execute(compiled);
+            if (result.getSize() == 0) {
+                Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.INFO, "Dvd nebylo nalezeno v DB!");
+            }
 
         } catch (XMLDBException ex) {
-            Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE, "Chyba při mazání dvd!", ex);
         } finally {
             //dont forget to cleanup
             if (col != null) {
                 try {
                     col.close();
-                } catch (XMLDBException xe) {
-                    xe.printStackTrace();
+                } catch (XMLDBException ex) {
+                    Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE,
+                            "Chyba při uvolňování zdrojů!", ex);
                 }
             }
         }
@@ -165,6 +182,7 @@ public class DvdManagerImpl implements DvdManager {
 
     @Override
     public Document getDvdById(long id) {
+
         Document dvd = null;
         Collection col = null;
         try {
@@ -173,18 +191,25 @@ public class DvdManagerImpl implements DvdManager {
             xpqs.setProperty("indent", "yes");
             ResourceSet result = xpqs.query("//dvd[@id = " + id + "]");
 
+            if (result.getSize() == 0) {
+                Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.INFO, "Dvd nebylo nalezeno v DB!");
+                return null;
+            }
+
             XMLResource xmlRes = (XMLResource) result.getMembersAsResource();
 
             dvd = (Document) xmlRes.getContentAsDOM();
 
         } catch (XMLDBException ex) {
-            Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.INFO, "Záznam nebyl nalezen.", ex);
+
         } finally {
             if (col != null) {
                 try {
                     col.close();
-                } catch (XMLDBException xe) {
-                    System.err.println("Chyba při získávání dat z DB! " + xe);
+                } catch (XMLDBException ex) {
+                    Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE,
+                            "Chyba při uvolňování zdrojů!", ex);
                 }
             }
             return dvd;
@@ -203,16 +228,17 @@ public class DvdManagerImpl implements DvdManager {
             XMLResource xmlRes = (XMLResource) col.getResource("dvd.xml");      // ziska cely xml dokument
 
             allDvds = (Document) xmlRes.getContentAsDOM();                      // prevede na DOM Node (Document)
-            System.out.println("XML získáno z DB.");
+            //System.out.println("XML získáno z DB.");
 
         } catch (XMLDBException ex) {
-            Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE, "Chyba při získávání dat z DB!", ex);
         } finally {
             if (col != null) {
                 try {
                     col.close();
-                } catch (XMLDBException xe) {
-                    System.err.println("Chyba při získávání dat z DB! " + xe);
+                } catch (XMLDBException ex) {
+                    Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE,
+                            "Chyba při uvolňování zdrojů!", ex);
                 }
             }
             return allDvds;
@@ -220,14 +246,25 @@ public class DvdManagerImpl implements DvdManager {
     }
 
     @Override
-    public Document getDvdByType(String type) {
+    public Document getDvdByType(Type type) {
+        
+        
+    if (type == null) {
+            throw new IllegalArgumentException("Type cannot be null!");
+        }
+
         Document dvd = null;
         Collection col = null;
         try {
             col = DatabaseManager.getCollection(dbURI);
             XPathQueryService xpqs = (XPathQueryService) col.getService("XPathQueryService", "1.0");
             xpqs.setProperty("indent", "yes");
-            ResourceSet result = xpqs.query("//dvd[type = '" + type + "']");
+            ResourceSet result = xpqs.query("//dvd[type = '" + type.toString() + "']");
+
+            if (result.getSize() == 0) {
+                Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.INFO, "Žádné dvd nebylo nalezeno v DB!");
+                return null;
+            }
 
             XMLResource xmlRes = (XMLResource) result.getMembersAsResource();
 
@@ -239,8 +276,9 @@ public class DvdManagerImpl implements DvdManager {
             if (col != null) {
                 try {
                     col.close();
-                } catch (XMLDBException xe) {
-                    System.err.println("Chyba při získávání dat z DB! " + xe);
+                } catch (XMLDBException ex) {
+                    Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE,
+                            "Chyba při uvolňování zdrojů!", ex);
                 }
             }
             return dvd;
@@ -249,6 +287,10 @@ public class DvdManagerImpl implements DvdManager {
 
     @Override
     public Document getDvdByName(String name) {
+        
+        if (name == null){
+            throw new IllegalArgumentException("DVD cannot be null!");
+        }
         Document dvd = null;
         Collection col = null;
         try {
@@ -256,21 +298,26 @@ public class DvdManagerImpl implements DvdManager {
             XPathQueryService xpqs = (XPathQueryService) col.getService("XPathQueryService", "1.0");
             xpqs.setProperty("indent", "yes");
             ResourceSet result = xpqs.query("//dvd[name = '" + name + "']");
-            if (result.getSize() > 0) {
-                XMLResource xmlRes = (XMLResource) result.getMembersAsResource();
 
-                dvd = (Document) xmlRes.getContentAsDOM();
-            } else {
+            if (result.getSize() == 0) {
+                Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.INFO, "Dvd nebylo nalezeno v DB!");
                 return null;
             }
+
+            XMLResource xmlRes = (XMLResource) result.getMembersAsResource();
+
+            dvd = (Document) xmlRes.getContentAsDOM();
+
+
         } catch (XMLDBException ex) {
             Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE, "Chyba při získávání dvd dle názvu!", ex);
         } finally {
             if (col != null) {
                 try {
                     col.close();
-                } catch (XMLDBException xe) {
-                    System.err.println("Chyba při získávání dat z DB! " + xe);
+                } catch (XMLDBException ex) {
+                    Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE,
+                            "Chyba při uvolňování zdrojů!", ex);
                 }
             }
             return dvd;
@@ -279,6 +326,9 @@ public class DvdManagerImpl implements DvdManager {
 
     @Override
     public Document getDvdByTitle(String title) {
+        if (title == null){
+            throw new IllegalArgumentException("DVD cannot be null!");
+        }
         Document dvd = null;
         Collection col = null;
         try {
@@ -286,21 +336,23 @@ public class DvdManagerImpl implements DvdManager {
             XPathQueryService xpqs = (XPathQueryService) col.getService("XPathQueryService", "1.0");
             xpqs.setProperty("indent", "yes");
             ResourceSet result = xpqs.query("//dvd[titles/title/name = '" + title + "']");
-            if (result.getSize() > 0) {
-                XMLResource xmlRes = (XMLResource) result.getMembersAsResource();
-
-                dvd = (Document) xmlRes.getContentAsDOM();
-            } else {
+            if (result.getSize() == 0) {
+                Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.INFO, "Dvd nebylo nalezeno v DB!");
                 return null;
             }
+
+            XMLResource xmlRes = (XMLResource) result.getMembersAsResource();
+
+            dvd = (Document) xmlRes.getContentAsDOM();
         } catch (XMLDBException ex) {
             Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE, "Chyba při získávání dvd dle titulu!", ex);
         } finally {
             if (col != null) {
                 try {
                     col.close();
-                } catch (XMLDBException xe) {
-                    System.err.println("Chyba při získávání dat z DB! " + xe);
+                } catch (XMLDBException ex) {
+                    Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE,
+                            "Chyba při uvolňování zdrojů!", ex);
                 }
             }
             return dvd;
@@ -309,24 +361,26 @@ public class DvdManagerImpl implements DvdManager {
     }
 
     private String dvdToXml(Dvd dvd) {
+        if (dvd == null) return "";
         
         String xmlDvd;
         xmlDvd = "<dvd id=\"" + dvd.getId() + "\">"
                 + "<name>" + dvd.getName() + "</name>"
                 + "<type>" + dvd.getType() + "</type>"
                 + "<titles>";
-        
+
         List<Track> titles = dvd.getTrackList();
-        for (int i = 0; i < titles.size(); i++){
+        for (int i = 0; i < titles.size(); i++) {
             Track title = titles.get(i);
-            xmlDvd = xmlDvd + 
-                    "<title>"
-                    + "<name>" + title.getName() + "</name>"
-                    + "<representative>" + title.getLeadActor() + "</representative>" +
-                    "</title>";
-        }          
-        xmlDvd = xmlDvd + "</titles></dvd>";
-        
+            xmlDvd += "<title>"
+                     + "<name>" + title.getName() + "</name>";
+            if (title.getLeadActor() != null){
+                    xmlDvd +="<representative>" + title.getLeadActor() + "</representative>";
+            }
+            xmlDvd +="</title>";
+        }
+        xmlDvd +="</titles></dvd>";
+
         return xmlDvd;
     }
 }
