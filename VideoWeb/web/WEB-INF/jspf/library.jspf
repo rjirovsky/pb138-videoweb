@@ -1,0 +1,33 @@
+ <%@page contentType="text/html" pageEncoding="UTF-8"%> <h1>Knihovna DVD</h1>
+    <div class="dvd"><div class="head"><div class="name">Pán prstenů</div><div class="type">originál</div></div><ul>
+            <li>Pán Prstenů : Společenstvo prstenu (
+                <b>Elijah Wood</b>)
+            </li>
+            <li>Pán Prstenů : Dvě věže (
+                <b>Ian McKellen</b>)
+            </li>
+            <li>Pán Prstenů : Návrat krále (
+                <b>Viggo Mortensen</b>)
+            </li>
+        </ul><a href="#1"><img src="inc/edit.png" alt="edit"/></a><a href="#1"><img src="inc/del.png" alt="delete"/></a></div>
+    
+    <div class="dvd"><div class="head"><div class="name">Tropa de Elite</div><div class="type">časopis</div></div><ul>
+            <li>Tropa de Elite I</li>
+            <li>Tropa de Elite II</li>
+        </ul><a href="#2"><img src="inc/edit.png" alt="edit"/></a><a href="#2"><img src="inc/del.png" alt="delete"/></a></div>
+    
+    <div class="dvd"><div class="head"><div class="name">Dovolená v Karibiku</div><div class="type">domácí</div></div><ul>
+            <li>Výlet na lodi</li>
+            <li>4 hodiny ve výtahu (
+                <b>Já</b>)
+            </li>
+            <li>Potápění</li>
+        </ul><a href="#3"><img src="inc/edit.png" alt="edit"/></a><a href="#3"><img src="inc/del.png" alt="delete"/></a></div>
+
+    <div class="dvd"><div class="head"><div class="name">Simpsonovi</div><div class="type">kopie</div></div><ul>
+            <li>Simpsonovi série 20</li>
+            <li>Simpsonovi ve filmu (
+                <b>Homer Simpson</b>)
+            </li>
+            <li>Simpsonovi série 21</li>
+        </ul><a href="#4"><img src="inc/edit.png" alt="edit"/></a><a href="#4"><img src="inc/del.png" alt="delete"/></a></div>
