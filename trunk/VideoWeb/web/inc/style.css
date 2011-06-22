@@ -1,0 +1,145 @@
+/* 
+    Document   : style
+    Created on : May 1, 2011, 10:42:37 AM
+    Author     : Adam
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+/* --------- STYL VYPISU DVD --------- */
+.dvd { 
+    border: 1px solid #E2E1CB;
+    width: 500px;
+    margin-bottom: 10px;
+}
+
+.dvd ul{
+    list-style: none;
+}
+
+/* hlavička */
+.head{
+    width: 500px;
+    height: auto;
+    float:left;
+    margin-bottom: 10px;
+}
+
+/* název dvd */
+.name{
+    background-color: #F8F7DE;
+    width: auto;
+    height: auto;
+    padding: 5px;
+    border-bottom: 1px solid #E2E1CB;
+    border-right: 1px solid #E2E1CB;
+    float: left;
+    font-size: 20px;
+    font-family: Geneva,Arial,Helvetica,sans-serif;
+    color: #1E5EB6;
+}
+
+/* typ dvd */
+.type{
+    float:right;
+    border-bottom: 1px solid #E2E1CB;
+    border-left: 1px solid #E2E1CB;
+    padding: 5px;
+    background-color: #1E5EB6;
+    color: #F8F7DE;
+    width: 50px;
+    text-align: center;
+   
+}
+/* ------------------ */
+
+
+
+
+/* --------- OBAL --------- */
+body{
+    margin:0;
+    padding:0;
+    border:0;			/* This removes the border around the viewport in old versions of IE */
+    width:100%;
+    font-family: Palatino, sans-serif;
+
+}
+
+#wrapper {
+    	margin: 0;
+        background-image: url(bg.png);
+        background-repeat: repeat-y;
+        background-color: whitesmoke;
+}
+
+/* --------- HLAVIČKA STRÁNEK --------- */
+
+#head{
+    background-color: #CB4F34;
+    border-bottom: 1px solid #333;
+    padding: 10px;
+    height: 60px;
+}
+
+/* --------- MENU STRÁNEK --------- */
+#menu{
+    float: left;
+    width: 140px;
+    padding-top: 1em;
+    padding-left: 20px;
+    background-color: #296A9B;
+    color:white;
+}
+
+#menu a{
+    color: white;
+    text-decoration: none;
+}
+
+#menu ul {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0px;
+}
+
+
+/* --------- TĚLO STRÁNEK --------- */
+#content{
+    padding-top: 1em;
+    padding-left: 15px;
+    margin: 0 2em 0 160px;
+}
+
+
+
+/* --------- PATIČKA STRÁNEK --------- */
+#footer{
+    clear: both;
+    background-color: #666;
+    padding: 1em;
+    text-align: right;
+    border-top: 1px solid #333;
+}
+
+
+/*  */
+fieldset{
+    border: 0px;
+}
+
+
+
+fieldset legend{
+    text-decoration: underline;
+}
+
+#titles{
+    border: 1px solid black;
+    width: 500px;
+}
