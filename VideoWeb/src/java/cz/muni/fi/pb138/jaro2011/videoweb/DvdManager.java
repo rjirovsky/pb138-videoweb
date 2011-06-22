@@ -1,7 +1,5 @@
 package cz.muni.fi.pb138.jaro2011.videoweb;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Node;
 
 /**
@@ -22,7 +20,7 @@ public interface DvdManager {
     
     public Node getAllDvds();
     
-    public Node getDvdByType(String type);
+    public Node getDvdByType(Type type);
     
     public Node getDvdByName(String name);
     
