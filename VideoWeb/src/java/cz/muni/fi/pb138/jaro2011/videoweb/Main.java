@@ -33,23 +33,23 @@ public class Main {
 
             //printDocument(dm.getAllDvds());
 
-            //printDocument(dm.getDvdById(2));
+            //printDocument(dm.getDvdById(-2));
 
-            //printDocument(dm.getDvdByType("originál"));
+            //printDocument(dm.getDvdByType(Type.ORIGINAL));
 
-            //printDocument(dm.getDvdByName("Simpsonovi"));
+            //printDocument(dm.getDvdByName("Simpso"));
             
-            //printDocument(dm.getDvdByTitle("Potápění"));
+            //printDocument(dm.getDvdByTitle(null));
             
             Dvd dvd = new Dvd();
             dvd.setId(3);
-            dvd.setName("Top Gear Challenges");
+            dvd.setName("Top Gear Specials");
             dvd.setType(Type.MAGAZINE);
             List<Track> titles = new ArrayList<Track>();
             Track t1 = new Track();
             Track t2 = new Track();
             t1.setName("Bolivia");
-            t1.setLeadActor("Jeremy Clakson");
+            
             t2.setName("Vietnam");
             t2.setLeadActor("James May");
             titles.add(t1);
@@ -57,8 +57,10 @@ public class Main {
             dvd.setTrackList(titles);
             //System.out.println(dm.dvdToXml(dvd));
             //dm.createDvd(dvd);
-            
+//            
             dm.updateDvd(dvd);
+            
+            //dm.deleteDvd("2");
             printDocument(dm.getAllDvds());
 
             System.out.println("Konec programu.");
