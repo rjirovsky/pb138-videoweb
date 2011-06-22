@@ -1,5 +1,7 @@
 package cz.muni.fi.pb138.jaro2011.videoweb;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -51,17 +53,16 @@ public class DvdManagerImpl implements DvdManager {
             XQueryService xqs = (XQueryService) col.getService("XQueryService", "1.0");
             xqs.setProperty("indent", "yes");
 
-
-
-            CompiledExpression compiled = xqs.compile("xquery");
-
+            String xmlDvd = dvdToXml(dvd);
+            CompiledExpression compiled = xqs.compile("update insert" + xmlDvd
+                    + "into //dvd-library");
             ResourceSet result = xqs.execute(compiled);
 
 
         } catch (XMLDBException ex) {
             Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-//dont forget to cleanup
+            //dont forget to cleanup
             if (col != null) {
                 try {
                     col.close();
@@ -75,17 +76,91 @@ public class DvdManagerImpl implements DvdManager {
 
     @Override
     public void updateDvd(Dvd dvd) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Collection col = null;
+
+        try {
+
+            col = DatabaseManager.getCollection(dbURI);
+            XQueryService xqs = (XQueryService) col.getService("XQueryService", "1.0");
+            xqs.setProperty("indent", "yes");
+
+            
+            CompiledExpression compiled = xqs.compile("update replace //dvd[@id = '" + dvd.getId() +"'] with " + dvdToXml(dvd));
+            ResourceSet result = xqs.execute(compiled);
+
+
+        } catch (XMLDBException ex) {
+            Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            //dont forget to cleanup
+            if (col != null) {
+                try {
+                    col.close();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+        }
     }
 
     @Override
     public void deleteDvd(String name) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
+        Collection col = null;
+
+        try {
+
+            col = DatabaseManager.getCollection(dbURI);
+            XQueryService xqs = (XQueryService) col.getService("XQueryService", "1.0");
+            xqs.setProperty("indent", "yes");
+
+            
+            CompiledExpression compiled = xqs.compile("update delete //dvd[name = '" + name +"']");
+            ResourceSet result = xqs.execute(compiled);
+
+
+        } catch (XMLDBException ex) {
+            Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            //dont forget to cleanup
+            if (col != null) {
+                try {
+                    col.close();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+        }
     }
 
     @Override
     public void deleteDvd(long id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    
+        Collection col = null;
+
+        try {
+
+            col = DatabaseManager.getCollection(dbURI);
+            XQueryService xqs = (XQueryService) col.getService("XQueryService", "1.0");
+            xqs.setProperty("indent", "yes");
+
+            
+            CompiledExpression compiled = xqs.compile("update delete //dvd[@id = '" + id +"']");
+            ResourceSet result = xqs.execute(compiled);
+
+
+        } catch (XMLDBException ex) {
+            Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            //dont forget to cleanup
+            if (col != null) {
+                try {
+                    col.close();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+        }
     }
 
     @Override
@@ -231,5 +306,27 @@ public class DvdManagerImpl implements DvdManager {
             return dvd;
         }
 
+    }
+
+    private String dvdToXml(Dvd dvd) {
+        
+        String xmlDvd;
+        xmlDvd = "<dvd id=\"" + dvd.getId() + "\">"
+                + "<name>" + dvd.getName() + "</name>"
+                + "<type>" + dvd.getType() + "</type>"
+                + "<titles>";
+        
+        List<Track> titles = dvd.getTrackList();
+        for (int i = 0; i < titles.size(); i++){
+            Track title = titles.get(i);
+            xmlDvd = xmlDvd + 
+                    "<title>"
+                    + "<name>" + title.getName() + "</name>"
+                    + "<representative>" + title.getLeadActor() + "</representative>" +
+                    "</title>";
+        }          
+        xmlDvd = xmlDvd + "</titles></dvd>";
+        
+        return xmlDvd;
     }
 }
