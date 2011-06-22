@@ -7,20 +7,23 @@ package cz.muni.fi.pb138.jaro2011.videoweb;
 public enum Type {
     ORIGINAL
     {
-        public String toSTring()
+        @Override
+        public String toString()
         {
             return "originál";
         }
     }, 
     MAGAZINE
     {
+        @Override
         public String toString()
         {
-            return "magazín";
+            return "časopis";
         }
     }, 
     HOME
     {
+        @Override
         public String toString()
         {
             return "domácí";
@@ -28,6 +31,7 @@ public enum Type {
     }, 
     COPY
     {
+        @Override
         public String toString()
         {
             return "kopie";
