@@ -21,6 +21,6 @@ public interface VideoWebManager {
     
     public Collection<Dvd> getAllDvds();
     
-    public boolean importDvdsFromODF(File input);
+    public void importDvdsFromODF(String name);
     
 }
