@@ -4,6 +4,8 @@
  */
 package cz.muni.fi.pb138.jaro2011.videoweb;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
@@ -39,7 +41,25 @@ public class Main {
             
             //printDocument(dm.getDvdByTitle("Potápění"));
             
+            Dvd dvd = new Dvd();
+            dvd.setId(3);
+            dvd.setName("Top Gear Challenges");
+            dvd.setType(Type.MAGAZINE);
+            List<Track> titles = new ArrayList<Track>();
+            Track t1 = new Track();
+            Track t2 = new Track();
+            t1.setName("Bolivia");
+            t1.setLeadActor("Jeremy Clakson");
+            t2.setName("Vietnam");
+            t2.setLeadActor("James May");
+            titles.add(t1);
+            titles.add(t2);
+            dvd.setTrackList(titles);
+            //System.out.println(dm.dvdToXml(dvd));
+            //dm.createDvd(dvd);
             
+            dm.updateDvd(dvd);
+            printDocument(dm.getAllDvds());
 
             System.out.println("Konec programu.");
 
@@ -85,7 +105,7 @@ public class Main {
                     System.out.println("Titul: " + titleName.getTextContent());
 
                     Element titleRepresentative = (Element) title.getElementsByTagName("representative").item(0);
-                    System.out.println("Hl. představitel: " + titleName.getTextContent());
+                    System.out.println("Hl. představitel: " + titleRepresentative.getTextContent());
 
                 }
 
