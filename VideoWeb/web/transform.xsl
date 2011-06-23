@@ -35,11 +35,11 @@
                 <xsl:apply-templates select="titles"/>
             </ul>
             <xsl:element name="a">
-                <xsl:attribute name="href">#<xsl:value-of select="@id"/></xsl:attribute>
+                <xsl:attribute name="href">VideoWebServlet?action=edit&#38;Id=<xsl:value-of select="@id"/></xsl:attribute>
                 <img src="inc/edit.png" alt="edit" />
             </xsl:element>
             <xsl:element name="a">
-                <xsl:attribute name="href">#<xsl:value-of select="@id"/></xsl:attribute>
+                <xsl:attribute name="href">VideoWebServlet?action=delete&#38;Id=<xsl:value-of select="@id"/></xsl:attribute>
                 <img src="inc/del.png" alt="delete" />
             </xsl:element>
         </div>
