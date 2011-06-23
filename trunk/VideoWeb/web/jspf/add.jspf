@@ -5,9 +5,9 @@
 </c:if>
 <fieldset id="addDVD">
     <legend>Nové DVD</legend>
-    <form action="VideoWebServlet?action=add" method="POST">
+    <form id="addDVDForm" action="VideoWebServlet?action=add" method="POST" onsubmit="return validateForm()">
         <label for="name">Jméno: </label>
-        <input type="text" name="name" id="name"/>
+        <input value="" type="text" name="name" id="dvdName"/>
         <br/>
         <label for="type">Typ: </label>
         <select name="type" id="type">

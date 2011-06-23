@@ -56,7 +56,7 @@ function addField(field1, field2,area,limit) {
 // fucntion to dynamicly remove items from a form
 function removeField(){
     if(!document.getElementById) return;
-    
+
     var titleCounter = document.getElementById("titleCounter");
     var counter = 0;
     counter = titleCounter.getAttribute("value");
@@ -68,4 +68,31 @@ function removeField(){
     titleCounter.setAttribute("value", counter);
     
     
+}
+
+function validateForm(){
+
+    var name=document.getElementById("dvdName").value;
+    var counter = document.getElementById("titleCounter").getAttribute("value");
+    
+    if (name == ""){
+        alert("Jméno dvd musí být vypln\u011bno");
+        return false;
+    }
+    var i = 1;
+    while(i <= counter){
+        var titleName = document.getElementById("titleName_"+i).value;
+        if (titleName == ""){
+            alert("Musite zadat jmeno u titulu c. "+i);
+            return false;
+        }
+        i++;
+    }
+    
+    return true;
+}
+
+function confrimDelete(){
+    var dvdName = document.getElementById("")
+    confirm("Chcete opravdu smazat "+"asdas");
 }
