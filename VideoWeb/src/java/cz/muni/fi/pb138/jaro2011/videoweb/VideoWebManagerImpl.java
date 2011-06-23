@@ -5,47 +5,99 @@
 package cz.muni.fi.pb138.jaro2011.videoweb;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.odftoolkit.odfdom.doc.OdfDocument;
 import org.odftoolkit.odfdom.doc.table.OdfTable;
+import org.w3c.dom.Document;
+import org.xmldb.api.base.XMLDBException;
 
 /**
  *
  * @author Honza
  */
 public class VideoWebManagerImpl implements VideoWebManager {
-
+     
+    private DvdManagerImpl dvdManager;
+    
+    /**
+     * Constructor of VideoWebManagerImpl class 
+     */
+     public VideoWebManagerImpl()  {
+        try {
+            dvdManager = new DvdManagerImpl();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(VideoWebManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(VideoWebManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(VideoWebManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (XMLDBException ex) {
+            Logger.getLogger(VideoWebManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+     
     @Override
-    public boolean addDvd(Dvd dvd) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    /**
+     * Adds new DVD
+     * 
+     * @param dvd DVD to add 
+     */
+    public void addDvd(Dvd dvd) {
+        dvdManager.createDvd(dvd);
     }
 
     @Override
-    public boolean editDvd(Dvd dvd) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    /**
+     * Edits a DVD
+     * 
+     * @param dvd DVD to edit
+     */
+    public void editDvd(Dvd dvd) {
+        dvdManager.updateDvd(dvd);
     }
 
     @Override
-    public boolean deleteDvd(Dvd dvd) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    /**
+     * Deletes a DVD
+     * 
+     * @param dvd DVD to delete 
+     */
+    public void deleteDvd(Dvd dvd) {
+        dvdManager.deleteDvd(dvd.getId());
     }
 
     @Override
-    public Collection<Dvd> getDvdByName(String name) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    /**
+     * Find DVDs with certain movie
+     * 
+     * @param name Name of movie to find
+     * @return Found DVDs
+     */
+    public Document getDvdByName(String name) {
+        return dvdManager.getDvdByName(name);
     }
 
     @Override
-    public Collection<Dvd> getDvdByType(Type type) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    /**
+     * Finds DVDs with certain type
+     * 
+     * @param type Type of DVDs to find
+     * @return Found DVDs
+     */
+    public Document getDvdByType(Type type) {
+        return dvdManager.getDvdByType(type);
     }
 
     @Override
-    public Collection<Dvd> getAllDvds() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    /**
+     * Returns all DVDs
+     * 
+     * @return All DVDs
+     */
+    public Document getAllDvds() {
+        return dvdManager.getAllDvds();
     }
 
     @Override
