@@ -36,7 +36,7 @@
                     <li><a href="?action=home">Úvod</a></li>
                     <li><a href="VideoWebServlet?action=add">Přidat DVD</a></li>
                     <li><a href="VideoWebServlet?action=library">Seznam DVD</a></li>
-                    <li><a href="?action=import">Import DVD</a></li>
+                    <li><a href="VideoWebServlet?action=importODF">Import DVD</a></li>
                 </ul>
             </div>
             <div id="content">
@@ -45,10 +45,10 @@
                     <%@ include file="jspf/welcome.jspf"%>
                 <%} if(request.getParameter("action").matches("add")){%>
                     <%@ include file="jspf/add.jspf"%>
-                <%} if(request.getParameter("action").matches("library") || request.getParameter("action").matches("delete")){%>
+                <%} if(request.getParameter("action").matches("library")){%>
                     <%@ include file="jspf/library.jspf"%>
 
-                <%} if(request.getParameter("action").matches("import")){%>
+                <%} if(request.getParameter("action").matches("importODF")){%>
                     <%@ include file="jspf/import.jspf"%>
                 <%} }%>
             </div>

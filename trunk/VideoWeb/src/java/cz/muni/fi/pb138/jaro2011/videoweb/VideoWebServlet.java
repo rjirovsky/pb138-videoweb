@@ -43,7 +43,14 @@ public class VideoWebServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
        
-        PageAction pageAction = Enum.valueOf(PageAction.class, request.getParameter("action"));
+        PageAction pageAction = PageAction.home;
+        try {
+            pageAction = Enum.valueOf(PageAction.class, request.getParameter("action"));
+        } catch (IllegalArgumentException ex){
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
+        } catch (NullPointerException ex) {
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
+        }
         
         switch (pageAction) {
 
@@ -206,8 +213,6 @@ public class VideoWebServlet extends HttpServlet {
 
     private void doDeleteDvd(HttpServletRequest request, HttpServletResponse response) {
         try {
-
-
             long id = Long.parseLong(request.getParameter("Id"));
             dm = new DvdManagerImpl();
             dm.deleteDvd(id);
