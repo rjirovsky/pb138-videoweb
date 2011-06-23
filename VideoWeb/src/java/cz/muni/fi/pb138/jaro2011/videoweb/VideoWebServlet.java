@@ -5,6 +5,7 @@
 package cz.muni.fi.pb138.jaro2011.videoweb;
 
 import com.sun.xml.internal.bind.v2.runtime.RuntimeUtil.ToStringAdapter;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -12,9 +13,11 @@ import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +30,10 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.w3c.dom.Document;
 import org.xmldb.api.base.XMLDBException;
 
@@ -38,20 +45,24 @@ public class VideoWebServlet extends HttpServlet {
 
     private DvdManagerImpl dm;
     private static final String xsltFile = "http://localhost:8084/VideoWeb/transform.xsl";
+    private static final String TMP_DIR_PATH = "c:\\tmp";
+    private File tmpDir;
+    private static final String DESTINATION_DIR_PATH = "/files";
+    private File destinationDir;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-       
+
         PageAction pageAction = PageAction.home;
         try {
             pageAction = Enum.valueOf(PageAction.class, request.getParameter("action"));
-        } catch (IllegalArgumentException ex){
+        } catch (IllegalArgumentException ex) {
             request.getRequestDispatcher("/index.jsp").forward(request, response);
         } catch (NullPointerException ex) {
             request.getRequestDispatcher("/index.jsp").forward(request, response);
         }
-        
+
         switch (pageAction) {
 
             case home: {
@@ -68,6 +79,9 @@ public class VideoWebServlet extends HttpServlet {
             }
             case delete: {
                 doDeleteDvd(request, response);
+            }
+            case importODF: {
+                doImport(request, response);
             }
             default: {
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
@@ -232,9 +246,30 @@ public class VideoWebServlet extends HttpServlet {
         } catch (NumberFormatException ex) {
             request.setAttribute("message", "Chyba při mazání DVD.");
         } finally {
-           doLibrary(request, response);
+            doLibrary(request, response);
         }
     }
+
+    private void doImport(HttpServletRequest request, HttpServletResponse response) {
+        DiskFileItemFactory  fileItemFactory = new DiskFileItemFactory ();
+		
+    }
+
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        tmpDir = new File(TMP_DIR_PATH);
+        if (!tmpDir.isDirectory()) {
+            throw new ServletException(TMP_DIR_PATH + " is not a directory");
+        }
+        String realPath = getServletContext().getRealPath(DESTINATION_DIR_PATH);
+        destinationDir = new File(realPath);
+        if (!destinationDir.isDirectory()) {
+            throw new ServletException(DESTINATION_DIR_PATH + " is not a directory");
+        }
+    }
+    
+
+    
 
     private enum PageAction {
 
