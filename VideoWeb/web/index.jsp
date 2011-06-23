@@ -9,9 +9,9 @@
 <% 
     boolean home = false;
     boolean actionSet = true;
-    if(request.getParameter("action") == null || request.getParameter("action").matches("home")){
-        home= true;
+    if(request.getParameter("action") == null){
         actionSet = false;
+        response.sendRedirect("VideoWebServlet?action=home");
     }
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
@@ -20,8 +20,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="inc/style.css" rel="stylesheet" type="text/css" media="screen" />
-        <SCRIPT type="text/javascript" language="Javascript" SRC="inc/script.js">
-        </SCRIPT>
+        <script type="text/javascript" language="Javascript" src="inc/script.js">
+        </script>
         <title>VideoWeb</title>
     </head>
     <body>
@@ -39,10 +39,10 @@
                 </ul>
             </div>
             <div id="content">
-                <%if (home){%>
+                 <% if(actionSet){
+                    if(request.getParameter("action").matches("home")){%>
                     <%@ include file="jspf/welcome.jspf"%>
-                <%} if(actionSet){
-                    if(request.getParameter("action").matches("add")){%>
+                <%} if(request.getParameter("action").matches("add")){%>
                     <%@ include file="jspf/add.jspf"%>
                 <%} if(request.getParameter("action").matches("library")){%>
                     <%@ include file="jspf/library.jspf"%>
