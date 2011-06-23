@@ -3,9 +3,9 @@
 
   * *Melkus Adam*, 374010 - webové rozhraní (CSS), XSLT Transformace
 
-  * *Jirovský Radek*, 359705 - DVD manažer CRUD
+  * *Jirovský Radek*, 359705 - DVD manažer, XML databáze
 
-  * *Kutil Jakub*, 256193 - DVD manager - get metody (xquery)
+  * *Kutil Jakub*, 256193 - import z ODS, VideoWeb manažer
 
   * *Quoc Tran Hoa*, 359768 - webové rozhraní JSP/Servlets
 
