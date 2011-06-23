@@ -1,6 +1,7 @@
 package cz.muni.fi.pb138.jaro2011.videoweb;
 
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,7 +26,8 @@ import org.xmldb.api.modules.XPathQueryService;
 public class DvdManagerImpl implements DvdManager {
 
     private static String dbURI = "xmldb:exist://localhost:8080/exist/xmlrpc/db";
-
+    private Random id;
+    
     public DvdManagerImpl() throws ClassNotFoundException, InstantiationException, IllegalAccessException, XMLDBException {
 
         final String driver = "org.exist.xmldb.DatabaseImpl";
@@ -35,14 +37,27 @@ public class DvdManagerImpl implements DvdManager {
         Database database = (Database) cl.newInstance();
         //database.setProperty("create-database", "true");
         DatabaseManager.registerDatabase(database);
+        
+        id = new Random();
     }
 
+   
     @Override
     public void createDvd(Dvd dvd) {
 
         if (dvd == null) {
             throw new IllegalArgumentException("DVD cannot be null!");
         }
+        if (dvd.getId() > 0) {
+            throw new IllegalArgumentException("Id already set!");
+        }
+        
+        long newId = id.nextInt(Integer.MAX_VALUE);
+        while (getDvdById(newId) != null){
+            newId = id.nextInt(Integer.MAX_VALUE);            
+        } 
+        dvd.setId(newId);
+        
 
         Collection col = null;
 
@@ -56,13 +71,12 @@ public class DvdManagerImpl implements DvdManager {
             CompiledExpression compiled = xqs.compile("update insert" + xmlDvd
                     + "into //dvd-library");
             ResourceSet result = xqs.execute(compiled);
-
-            if (result.getSize() == 0) {
-                Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.INFO, "Dvd nebylo nalezeno v DB!");
-            }
+            Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.INFO, "Dvd bylo přidáno.");
+            
 
         } catch (XMLDBException ex) {
-            Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE, "Chyba při přidávání dvd!", ex);
+            throw new RuntimeException("Chyba při přidávání dvd!", ex);
         } finally {
             //dont forget to cleanup
             if (col != null) {
@@ -71,6 +85,7 @@ public class DvdManagerImpl implements DvdManager {
                 } catch (XMLDBException ex) {
                     Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE,
                             "Chyba při uvolňování zdrojů!", ex);
+                    throw new RuntimeException("Chyba při uvolňování zdrojů!", ex);
                 }
             }
         }
@@ -95,9 +110,7 @@ public class DvdManagerImpl implements DvdManager {
             CompiledExpression compiled = xqs.compile("update replace //dvd[@id = '" + dvd.getId() + "'] with " + dvdToXml(dvd));
             ResourceSet result = xqs.execute(compiled);
 
-            if (result.getSize() == 0) {
-                Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.INFO, "Dvd nebylo nalezeno v DB!");
-            }
+            
 
         } catch (XMLDBException ex) {
             Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -128,9 +141,7 @@ public class DvdManagerImpl implements DvdManager {
 
             CompiledExpression compiled = xqs.compile("update delete //dvd[name = '" + name + "']");
             ResourceSet result = xqs.execute(compiled);
-            if (result.getSize() == 0) {
-                Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.INFO, "Dvd nebylo nalezeno v DB!");
-            }
+           
 
         } catch (XMLDBException ex) {
             Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE, "Chyba při mazání dvd!", ex);
@@ -161,9 +172,7 @@ public class DvdManagerImpl implements DvdManager {
 
             CompiledExpression compiled = xqs.compile("update delete //dvd[@id = '" + id + "']");
             ResourceSet result = xqs.execute(compiled);
-            if (result.getSize() == 0) {
-                Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.INFO, "Dvd nebylo nalezeno v DB!");
-            }
+           
 
         } catch (XMLDBException ex) {
             Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE, "Chyba při mazání dvd!", ex);
