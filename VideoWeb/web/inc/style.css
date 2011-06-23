@@ -54,7 +54,15 @@
     color: #F8F7DE;
     width: 50px;
     text-align: center;
-   
+}
+
+.success{
+	background-color:#D1F8AB;
+	border: 2px solid #00FF33;
+	width:300px;
+        height: 100x;
+	text-align:center;
+	margin:0;
 }
 /* ------------------ */
 

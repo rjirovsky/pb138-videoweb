@@ -9,7 +9,7 @@
 -->
 
 <xsl:stylesheet xmlns="" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xml:lang="en" version="1.0">
- <xsl:output method="xml" encoding="utf-8" omit-xml-declaration="yes"/>
+    <xsl:output method="xml" encoding="utf-8" omit-xml-declaration="yes"/>
     <!-- TODO customize transformation rules
          syntax recommendation http://www.w3.org/TR/xslt
     -->
@@ -18,13 +18,23 @@
         <!-- pro korektní zobrazení znaků při include v jsp -->
         
         <h1>Knihovna DVD</h1>
-        <xsl:apply-templates/>
+        <xsl:choose>
+            <xsl:when test="count(//dvd) = 0">
+                <h2>Knihovna je prázdná</h2>
+            </xsl:when>
+            <xsl:otherwise> 
+                <xsl:apply-templates/>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
     <xsl:template match="dvd">
         <div class="dvd">
             <div class="head">
                 <div class="name">
+                    <xsl:attribute name="id">
+                        <xsl:value-of select="@id"/>
+                    </xsl:attribute>
                     <xsl:value-of select="name"/>
                 </div>
                 <div class="type">
@@ -40,6 +50,7 @@
             </xsl:element>
             <xsl:element name="a">
                 <xsl:attribute name="href">VideoWebServlet?action=delete&#38;Id=<xsl:value-of select="@id"/></xsl:attribute>
+                <xsl:attribute name="onClick">return confirmDelete(<xsl:value-of select="@id"/>)</xsl:attribute>
                 <img src="inc/del.png" alt="delete" />
             </xsl:element>
         </div>
@@ -48,10 +59,8 @@
     <xsl:template match="title">
         <li>
             <xsl:value-of select="name"/>
-            <xsl:if test="representative"> (
-                <b>
-                    <xsl:value-of select="representative"/>
-                </b>)
+            <xsl:if test="representative">
+                (<b><xsl:value-of select="representative"/></b>)
             </xsl:if>
         </li>
     </xsl:template>

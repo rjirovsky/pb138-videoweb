@@ -4,7 +4,7 @@
  */
 
 
-//Add more fields dynamically.
+// Add more fields dynamically.
 function addField(field1, field2,area,limit) {
     if(!document.getElementById) return; //Prevent older browsers from getting any further.
     var field_area = document.getElementById(area);
@@ -53,7 +53,7 @@ function addField(field1, field2,area,limit) {
     }
 }
 
-// fucntion to dynamicly remove items from a form
+// Dynamicly remove items from a form
 function removeField(){
     if(!document.getElementById) return;
 
@@ -70,6 +70,7 @@ function removeField(){
     
 }
 
+// Validating add dvd input form
 function validateForm(){
 
     var name=document.getElementById("dvdName").value;
@@ -83,7 +84,7 @@ function validateForm(){
     while(i <= counter){
         var titleName = document.getElementById("titleName_"+i).value;
         if (titleName == ""){
-            alert("Musite zadat jmeno u titulu c. "+i);
+            alert("Musíte zadat jméno u titulu \u010d. "+i);
             return false;
         }
         i++;
@@ -92,7 +93,9 @@ function validateForm(){
     return true;
 }
 
-function confrimDelete(){
-    var dvdName = document.getElementById("")
-    confirm("Chcete opravdu smazat "+"asdas");
+// Confirm deletion dialog
+function confirmDelete(id){
+    var dvdName = document.getElementById(id).innerText;
+    
+    return(confirm("Chcete opravdu smazat "+dvdName));
 }

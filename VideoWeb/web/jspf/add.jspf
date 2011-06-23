@@ -1,12 +1,16 @@
 <%-- any content can be specified here e.g.: --%>
 <%@ page pageEncoding="UTF-8" %>
 <c:if test="${not empty message}">
-    <c:out value="${message}"/>
+    <div class="success">
+        <c:out value="${message}"/>
+    </div>
+    <br />
 </c:if>
+
 <fieldset id="addDVD">
     <legend>Nové DVD</legend>
     <form id="addDVDForm" action="VideoWebServlet?action=add" method="POST" onsubmit="return validateForm()">
-        <label for="name">Jméno: </label>
+        <label for="dvdName">Jméno: </label>
         <input value="" type="text" name="name" id="dvdName"/>
         <br/>
         <label for="type">Typ: </label>
