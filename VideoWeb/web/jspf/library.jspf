@@ -1,0 +1,2 @@
+<c:set var="msg" value="${xmlFile}" scope="page" />   
+<c:out value="${msg}" escapeXml="false"/>

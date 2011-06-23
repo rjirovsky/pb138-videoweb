@@ -16,7 +16,7 @@
 
     <xsl:template match="dvd-library">
         <!-- pro korektní zobrazení znaků při include v jsp -->
-        <xsl:text disable-output-escaping="yes"> &lt;%@page contentType="text/html" pageEncoding="UTF-8"%> </xsl:text>
+        
         <h1>Knihovna DVD</h1>
         <xsl:apply-templates/>
     </xsl:template>
