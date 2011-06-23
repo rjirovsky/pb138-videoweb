@@ -1,5 +1,8 @@
 <%-- any content can be specified here e.g.: --%>
 <%@ page pageEncoding="UTF-8" %>
+<c:if test="${not empty message}">
+    <c:out value="${message}"/>
+</c:if>
 <fieldset>
     <legend>Import seznamu</legend>
     <form action="VideoWebServlet?action=importODF" enctype="multipart/form-data" method="POST">

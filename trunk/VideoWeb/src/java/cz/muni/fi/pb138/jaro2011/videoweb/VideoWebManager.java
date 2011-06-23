@@ -1,7 +1,6 @@
 package cz.muni.fi.pb138.jaro2011.videoweb;
 
 import java.io.File;
-import java.util.Collection;
 import org.w3c.dom.Node;
 
 /**
