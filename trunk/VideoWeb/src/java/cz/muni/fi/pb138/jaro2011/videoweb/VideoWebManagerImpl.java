@@ -16,7 +16,7 @@ import org.xmldb.api.base.XMLDBException;
 
 /**
  *
- * @author Honza
+ * @author Jakub Kutil
  */
 public class VideoWebManagerImpl implements VideoWebManager {
 
@@ -29,84 +29,84 @@ public class VideoWebManagerImpl implements VideoWebManager {
         try {
             dvdManager = new DvdManagerImpl();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(VideoWebManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VideoWebManagerImpl.class.getName()).log(Level.SEVERE, "Chyba při vytváření dvdManageru", ex);
         } catch (InstantiationException ex) {
-            Logger.getLogger(VideoWebManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VideoWebManagerImpl.class.getName()).log(Level.SEVERE, "Chyba při vytváření dvdManageru", ex);
         } catch (IllegalAccessException ex) {
-            Logger.getLogger(VideoWebManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VideoWebManagerImpl.class.getName()).log(Level.SEVERE, "Chyba při vytváření dvdManageru", ex);
         } catch (XMLDBException ex) {
-            Logger.getLogger(VideoWebManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VideoWebManagerImpl.class.getName()).log(Level.SEVERE, "Chyba při vytváření dvdManageru", ex);
         }
     }
-
-    @Override
+   
     /**
      * Adds new DVD
      * 
      * @param dvd DVD to add 
      */
+    @Override
     public void addDvd(Dvd dvd) {
         dvdManager.createDvd(dvd);
     }
 
-    @Override
     /**
      * Edits a DVD
      * 
      * @param dvd DVD to edit
      */
+    @Override
     public void editDvd(Dvd dvd) {
         dvdManager.updateDvd(dvd);
     }
 
-    @Override
     /**
      * Deletes a DVD
      * 
      * @param dvd DVD to delete 
      */
+    @Override
     public void deleteDvd(Dvd dvd) {
         dvdManager.deleteDvd(dvd.getId());
     }
 
-    @Override
     /**
      * Find DVDs with certain movie
      * 
      * @param name Name of movie to find
      * @return Found DVDs
      */
+    @Override
     public Document getDvdByName(String name) {
         return dvdManager.getDvdByName(name);
     }
 
-    @Override
     /**
      * Finds DVDs with certain type
      * 
      * @param type Type of DVDs to find
      * @return Found DVDs
      */
+    @Override
     public Document getDvdByType(Type type) {
         return dvdManager.getDvdByType(type);
     }
 
-    @Override
     /**
      * Returns all DVDs
      * 
      * @return All DVDs
      */
+    @Override
     public Document getAllDvds() {
         return dvdManager.getAllDvds();
     }
 
-    @Override
     /**
      * Imports DVDs from ODF spreadsheet 
      * 
      * @param name Name of spreadsheet to load 
      */
+    @Override
     public void importDvdsFromODF(File file) {
         
         try {
@@ -144,23 +144,23 @@ public class VideoWebManagerImpl implements VideoWebManager {
                         if (type == 1) {
                             for (int j = 2; j < table.getColumnCount(); j = j + 2) {    // getting title and leading actor from single row (single DVD)
                                 Track track = new Track();
-                                if (!table.getCellByPosition(j, i).getStringValue().isEmpty()) {    // check if cell is not empty
-                                    track.setName(table.getCellByPosition(j, i).getStringValue());
+                                if (!table.getCellByPosition(j, i).getDisplayText().isEmpty()) {    // check if cell is not empty
+                                    track.setName(table.getCellByPosition(j, i).getDisplayText());
 
-                                    if (!table.getCellByPosition(j + 1, i).getStringValue().isEmpty()) {        // check if actor's cell is not empty
-                                        track.setLeadActor(table.getCellByPosition(j + 1, i).getStringValue());
+                                    if (!table.getCellByPosition(j + 1, i).getDisplayText().isEmpty()) {        // check if actor's cell is not empty
+                                        track.setLeadActor(table.getCellByPosition(j + 1, i).getDisplayText());
                                     }
                                     list.add(track);
                                 }
                             }
                             dvd.setTrackList(list);
                             this.addDvd(dvd);
-                        }
+                            }
                     }
                 }
             }
         } catch (Exception ex) {
-            Logger.getLogger(VideoWebManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VideoWebManagerImpl.class.getName()).log(Level.SEVERE, "Chyba při importu z ODF spreadsheetu", ex);
         }
-    }
+    }    
 }
