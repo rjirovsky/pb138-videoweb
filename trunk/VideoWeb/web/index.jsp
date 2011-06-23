@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% 
     boolean home = false;
     boolean actionSet = true;
@@ -19,6 +20,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="inc/style.css" rel="stylesheet" type="text/css" media="screen" />
+        <SCRIPT type="text/javascript" language="Javascript" SRC="inc/script.js">
+        </SCRIPT>
         <title>VideoWeb</title>
     </head>
     <body>
@@ -30,21 +33,22 @@
                 <h3>Nabídka</h3>
                 <ul>
                     <li><a href="?action=home">Úvod</a></li>
-                    <li><a href="?action=add">Přidat DVD</a></li>
-                    <li><a href="?action=library">Seznam DVD</a></li>
+                    <li><a href="VideoWebServlet?action=add">Přidat DVD</a></li>
+                    <li><a href="VideoWebServlet?action=library">Seznam DVD</a></li>
                     <li><a href="?action=import">Import DVD</a></li>
                 </ul>
             </div>
             <div id="content">
                 <%if (home){%>
-                    <%@ include file="WEB-INF/jspf/welcome.jspf"%>
+                    <%@ include file="jspf/welcome.jspf"%>
                 <%} if(actionSet){
                     if(request.getParameter("action").matches("add")){%>
-                    <%@ include file="WEB-INF/jspf/add.jspf"%>
+                    <%@ include file="jspf/add.jspf"%>
                 <%} if(request.getParameter("action").matches("library")){%>
-                    <%@ include file="WEB-INF/jspf/library.jspf"%>
+                    <%@ include file="jspf/library.jspf"%>
+
                 <%} if(request.getParameter("action").matches("import")){%>
-                    <%@ include file="WEB-INF/jspf/import.jspf"%>
+                    <%@ include file="jspf/import.jspf"%>
                 <%} }%>
             </div>
             <div id="footer">
