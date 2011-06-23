@@ -107,8 +107,7 @@ public class VideoWebManagerImpl implements VideoWebManager {
      * @param name Name of spreadsheet to load 
      */
     public void importDvdsFromODF(String name) {
-        int type = 0;
-
+        
         try {
             OdfDocument odfDoc = OdfDocument.loadDocument(name);                // loads whole document
             List<OdfTable> OdfTables = new ArrayList(odfDoc.getTableList());
@@ -116,7 +115,8 @@ public class VideoWebManagerImpl implements VideoWebManager {
             for (int k = 0; k < OdfTables.size(); k++) {        // loading of single sheet
                 OdfTable table = OdfTables.get(k);
 
-                for (int i = 1; i < table.getRowCount(); i++) {   // reading of data from single row (single DVD)
+                for (int i = 1; i < table.getRowCount(); i++) { // reading of data from single row (single DVD)
+                    int type = 0;
                     if (!table.getCellByPosition(0, i).getDisplayText().isEmpty()) {    // testing if name cell is not empty
                         Dvd dvd = new Dvd();
                         List<Track> list = new ArrayList<Track>();
