@@ -27,14 +27,14 @@ function addField(field1, field2,area,limit) {
         div.setAttribute("class", "titleInput");
         // label name
         nameLabel.htmlFor = field1+count;
-        nameLabel.innerText = "Název: ";
+        nameLabel.textContent = "Název: ";
         // name input tag
         name.id = field1+count;
         name.name = field1+count;
         name.type = "text"; //Type of field - can be any valid input type like text,file,checkbox etc.
 
         representativeLabel.htmlFor = field2+count;
-        representativeLabel.innerText = " Hlavní p\u0159edstavitel: ";
+        representativeLabel.textContent = " Hlavní p\u0159edstavitel: ";
 
         representative.id = field2+count;
         representative.name = field2+count;
@@ -95,7 +95,7 @@ function validateForm(){
 
 // Confirm deletion dialog
 function confirmDelete(id){
-    var dvdName = document.getElementById(id).innerText;
+    var dvdName = document.getElementById(id).textContent;
     
     return(confirm("Chcete opravdu smazat "+dvdName));
 }
