@@ -4,6 +4,7 @@
  */
 package cz.muni.fi.pb138.jaro2011.videoweb;
 
+import com.sun.xml.internal.bind.v2.runtime.RuntimeUtil.ToStringAdapter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -41,79 +42,85 @@ public class VideoWebServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
 
-        if (request.getParameter("action").equals("home")) {
-            String cc = "5";
-            request.setAttribute("dvdCount", cc);
-            
-            request.getRequestDispatcher("/index.jsp").forward(request, response);
-        }
-        if (request.getParameter("action").equals("library")) {
-            showLibrary(request, response);
-        } else {
-            request.setAttribute("xmlFile", "chyba");
-            request.getRequestDispatcher("/index.jsp").forward(request, response);
-        }
-        if (request.getParameter("action").equals("add"))
-        {
-            if (request.getMethod().equals("POST"))
-            {
-                int titleCounter = Integer.parseInt(request.getParameter("titleCounter"));
-                
-                String dvdName = request.getParameter("name");
-                String typeString = request.getParameter("type");
-                String titleName = null;
-                String repreName = null;
-                List<Track> trackList = new ArrayList<Track>();
-                
-                Dvd dvd = new Dvd();
-                dvd.setName(dvdName);
-                dvd.setType(Type.valueOf(typeString));
-                
-                Track track;
-                
-                for (int i = 1; i <= titleCounter; i++){        
-                    track = new Track();
-                    titleName = request.getParameter("titleName_"+i);
-                    track.setName(titleName);
-                    repreName = request.getParameter("titleRepresentative_"+i);
-                    if (repreName == null || repreName.isEmpty()){
-                        track.setLeadActor(null);
-                    } else {
-                        track.setLeadActor(repreName);
-                    }
-                    trackList.add(track);
-                    repreName = null;
-                }
-                      
-                dvd.setTrackList(trackList);
-                
-                
-                try {
-                    dm = new DvdManagerImpl();
-                    dm.createDvd(dvd);
-                    request.setAttribute("message", "Nové DVD uspěšně přidáno.");
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
-                    request.setAttribute("message", "Chyba při přidávání nového DVD.");
-                } catch (InstantiationException ex) {
-                    Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
-                    request.setAttribute("message", "Chyba při přidávání nového DVD.");
-                } catch (IllegalAccessException ex) {
-                    Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
-                    request.setAttribute("message", "Chyba při přidávání nového DVD.");
-                } catch (XMLDBException ex) {
-                    Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
-                    request.setAttribute("message", "Chyba při přidávání nového DVD.");
-                } finally{
-                    request.getRequestDispatcher("index.jsp").forward(request, response);
-                }
+        PageAction pageAction = Enum.valueOf(PageAction.class, request.getParameter("action"));
+
+        switch (pageAction) {
+
+            case home: {
+                doHome(request, response);
+                break;
             }
+            case add: {
+                doAdd(request, response);
+                break;
+            } case library: {
+                doLibrary(request, response);
+                break;
+            } case delete: {
+                doDeleteDvd(request, response);
+            }
+            default: {
+                request.getRequestDispatcher("/index.jsp").forward(request, response);
+            }
+
         }
+    }
 
+    private void doAdd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (request.getMethod().equals("POST")) {
+            try {
+                int titleCounter = Integer.parseInt(request.getParameter("titleCounter"));
+                Dvd dvd = getDvdFromRequest(request, titleCounter);
 
+                dm = new DvdManagerImpl();
+                dm.createDvd(dvd);
+                request.setAttribute("message", "Nové DVD uspěšně přidáno.");
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+                request.setAttribute("message", "Chyba při přidávání nového DVD.");
+            } catch (InstantiationException ex) {
+                Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+                request.setAttribute("message", "Chyba při přidávání nového DVD.");
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+                request.setAttribute("message", "Chyba při přidávání nového DVD.");
+            } catch (XMLDBException ex) {
+                Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+                request.setAttribute("message", "Chyba při přidávání nového DVD.");
+            } finally {
+                request.getRequestDispatcher("/index.jsp").forward(request, response);
+            }
+        } else {
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
+        }
+    }
 
+    private Dvd getDvdFromRequest(HttpServletRequest request, int titleCounter) {
+        String dvdName = request.getParameter("name");
+        String typeString = request.getParameter("type");
+        String titleName = null;
+        String repreName = null;
+        List<Track> trackList = new ArrayList<Track>();
+        Dvd dvd = new Dvd();
+        dvd.setName(dvdName);
+        dvd.setType(Type.valueOf(typeString));
+        Track track;
+        for (int i = 1; i <= titleCounter; i++) {
+            track = new Track();
+            titleName = request.getParameter("titleName_" + i);
+            track.setName(titleName);
+            repreName = request.getParameter("titleRepresentative_" + i);
+            if (repreName == null || repreName.isEmpty()) {
+                track.setLeadActor(null);
+            } else {
+                track.setLeadActor(repreName);
+            }
+            trackList.add(track);
+            repreName = null;
+        }
+        dvd.setTrackList(trackList);
+        return dvd;
     }
 
     @Override
@@ -133,7 +140,13 @@ public class VideoWebServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void showLibrary(HttpServletRequest request, HttpServletResponse response){
+    private void doHome(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String cc = "5";
+        request.setAttribute("dvdCount", cc);
+        request.getRequestDispatcher("/index.jsp").forward(request, response);
+    }
+
+    private void doLibrary(HttpServletRequest request, HttpServletResponse response) {
         try {
             dm = new DvdManagerImpl();
 
@@ -185,7 +198,57 @@ public class VideoWebServlet extends HttpServlet {
             } catch (IOException ex) {
                 Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
                 return "Error with XML DB has been reached.";
-            } 
+            }
+        }
+    }
+
+    private void doDeleteDvd(HttpServletRequest request, HttpServletResponse response) {
+        
+        }
+
+    private enum PageAction {
+
+        home {
+
+            @Override
+            public String toString() {
+                return "home";
+            }
+        },
+        library {
+
+            @Override
+            public String toString() {
+                return "library";
+            }
+        },
+        add {
+
+            @Override
+            public String toString() {
+                return "add";
+            }
+        },
+        delete {
+
+            @Override
+            public String toString() {
+                return "deleteId";
+            }
+        },
+        edit {
+
+            @Override
+            public String toString() {
+                return "editId";
+            }
+        },
+        importODF {
+
+            @Override
+            public String toString() {
+                return "importODF";
+            }
         }
     }
 }
