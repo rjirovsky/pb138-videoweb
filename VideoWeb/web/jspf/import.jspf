@@ -2,7 +2,7 @@
 <%@ page pageEncoding="UTF-8" %>
 <fieldset>
     <legend>Import seznamu</legend>
-    <form action="import.xmtl">
+    <form action="VideoWebServlet?action=importODF" enctype="multipart/form-data" method="POST">
         <input type="file"/><br/>
         <br/>
         <input type="submit" value="Odeslat" name="submitFile"/>
