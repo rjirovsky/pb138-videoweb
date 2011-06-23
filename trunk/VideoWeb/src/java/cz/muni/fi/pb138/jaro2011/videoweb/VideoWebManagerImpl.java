@@ -18,13 +18,13 @@ import org.xmldb.api.base.XMLDBException;
  * @author Honza
  */
 public class VideoWebManagerImpl implements VideoWebManager {
-     
+
     private DvdManagerImpl dvdManager;
-    
+
     /**
      * Constructor of VideoWebManagerImpl class 
      */
-     public VideoWebManagerImpl()  {
+    public VideoWebManagerImpl() {
         try {
             dvdManager = new DvdManagerImpl();
         } catch (ClassNotFoundException ex) {
@@ -37,7 +37,7 @@ public class VideoWebManagerImpl implements VideoWebManager {
             Logger.getLogger(VideoWebManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-     
+
     @Override
     /**
      * Adds new DVD
@@ -107,62 +107,59 @@ public class VideoWebManagerImpl implements VideoWebManager {
      * @param name Name of spreadsheet to load 
      */
     public void importDvdsFromODF(String name) {
-        
+        int type = 0;
+
         try {
             OdfDocument odfDoc = OdfDocument.loadDocument(name);                // loads whole document
             List<OdfTable> OdfTables = new ArrayList(odfDoc.getTableList());
-            
+
             for (int k = 0; k < OdfTables.size(); k++) {        // loading of single sheet
                 OdfTable table = OdfTables.get(k);
 
                 for (int i = 1; i < table.getRowCount(); i++) {   // reading of data from single row (single DVD)
-                    Dvd dvd = new Dvd();
-                    List<Track> list = new ArrayList<Track>();
-                    dvd.setName(table.getCellByPosition(0, i).getDisplayText());    // getting a name of DVD
-                    
-                    // getting a type of DVD
-                    if (table.getCellByPosition(1, i).getDisplayText().equalsIgnoreCase("originál")) {  
-                        dvd.setType(Type.ORIGINAL);
-                    }
-                    if (table.getCellByPosition(1, i).getDisplayText().equalsIgnoreCase("časopis")) {
-                        dvd.setType(Type.MAGAZINE);
-                    }
-                    if (table.getCellByPosition(1, i).getDisplayText().equalsIgnoreCase("domácí")) {
-                        dvd.setType(Type.HOME);
-                    }
-                    if (table.getCellByPosition(1, i).getDisplayText().equalsIgnoreCase("kopie")) {
-                        dvd.setType(Type.COPY);
-                    }                    
+                    if (!table.getCellByPosition(0, i).getDisplayText().isEmpty()) {    // testing if name cell is not empty
+                        Dvd dvd = new Dvd();
+                        List<Track> list = new ArrayList<Track>();
+                        dvd.setName(table.getCellByPosition(0, i).getDisplayText());    // getting a name of DVD
 
-                    for (int j = 2; j < table.getColumnCount(); j = j + 2) {    // getting title and leading actor from single row (single DVD)
-                        Track track = new Track();
-                        if (!table.getCellByPosition(j, i).getStringValue().isEmpty()) {    // check if cell is not empty
-                            track.setName(table.getCellByPosition(j, i).getStringValue());
-                 
-                            if (!table.getCellByPosition(j + 1, i).getStringValue().isEmpty()) {        // check if actor's cell is not empty
-                                track.setLeadActor(table.getCellByPosition(j + 1, i).getStringValue());
+                        // getting a type of DVD
+                        if (table.getCellByPosition(1, i).getDisplayText().equalsIgnoreCase("originál")) {
+                            dvd.setType(Type.ORIGINAL);
+                            type = 1;
+                        }
+                        if (table.getCellByPosition(1, i).getDisplayText().equalsIgnoreCase("časopis")) {
+                            dvd.setType(Type.MAGAZINE);
+                            type = 1;
+                        }
+                        if (table.getCellByPosition(1, i).getDisplayText().equalsIgnoreCase("domácí")) {
+                            dvd.setType(Type.HOME);
+                            type = 1;
+                        }
+                        if (table.getCellByPosition(1, i).getDisplayText().equalsIgnoreCase("kopie")) {
+                            dvd.setType(Type.COPY);
+                            type = 1;
+                        }
+
+                        if (type == 1) {
+                            for (int j = 2; j < table.getColumnCount(); j = j + 2) {    // getting title and leading actor from single row (single DVD)
+                                Track track = new Track();
+                                if (!table.getCellByPosition(j, i).getStringValue().isEmpty()) {    // check if cell is not empty
+                                    track.setName(table.getCellByPosition(j, i).getStringValue());
+
+                                    if (!table.getCellByPosition(j + 1, i).getStringValue().isEmpty()) {        // check if actor's cell is not empty
+                                        track.setLeadActor(table.getCellByPosition(j + 1, i).getStringValue());
+                                    }
+                                    list.add(track);
+                                }
                             }
-                            list.add(track);
+                            dvd.setTrackList(list);
+                            this.addDvd(dvd);
                         }
                     }
-                    dvd.setTrackList(list);
-
-                    /*System.out.println("");       //used for testing
-                    System.out.println("");
-
-                    System.out.println(dvd.getName());
-                    System.out.println(dvd.getType());
-                    System.out.println(dvd.getTrackList().size());
-                    System.out.println(dvd.getTrackList().get(0).getName());                    
-                    System.out.println(dvd.getTrackList().get(1).getName());
-                    */
-                    this.addDvd(dvd);
-                    
                 }
             }
         } catch (Exception ex) {
             Logger.getLogger(VideoWebManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }           
-    
+    }
 }
