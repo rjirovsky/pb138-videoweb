@@ -34,6 +34,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FilenameUtils;
 import org.w3c.dom.Document;
 import org.xmldb.api.base.XMLDBException;
 
@@ -45,10 +46,6 @@ public class VideoWebServlet extends HttpServlet {
 
     private DvdManagerImpl dm;
     private static final String xsltFile = "http://localhost:8084/VideoWeb/transform.xsl";
-    private static final String TMP_DIR_PATH = "c:\\tmp";
-    private File tmpDir;
-    private static final String DESTINATION_DIR_PATH = "/files";
-    private File destinationDir;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -251,25 +248,51 @@ public class VideoWebServlet extends HttpServlet {
     }
 
     private void doImport(HttpServletRequest request, HttpServletResponse response) {
-        DiskFileItemFactory  fileItemFactory = new DiskFileItemFactory ();
-		
+        if (ServletFileUpload.isMultipartContent(request)) {
+            try {
+                ServletFileUpload servletFileUpload = new ServletFileUpload(new DiskFileItemFactory());
+                List fileItemsList = servletFileUpload.parseRequest(request);
+
+                FileItem fileItem = null;
+
+                Iterator it = fileItemsList.iterator();
+                while (it.hasNext()) {
+                    FileItem fileItemTemp = (FileItem) it.next();
+                    if (!fileItemTemp.isFormField()) {
+                        fileItem = fileItemTemp;
+                    }
+                }
+
+                if (fileItem != null) {
+                    String fileName = fileItem.getName();
+
+                    /* Save the uploaded file if its size is greater than 0. */
+                    if (fileItem.getSize() > 0) {
+
+                        String dirName = "";
+
+                        File saveTo = new File(dirName + fileName);
+
+                        fileItem.write(saveTo);
+
+                        VideoWebManagerImpl vwm = new VideoWebManagerImpl();
+                        vwm.importDvdsFromODF(saveTo);
+
+                        request.setAttribute("message", "Soubor ODS úspěšně importován");
+
+
+                    }
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+                request.setAttribute("message", "Chyba při nahrávání souboru.");
+            }
+        }
     }
 
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        tmpDir = new File(TMP_DIR_PATH);
-        if (!tmpDir.isDirectory()) {
-            throw new ServletException(TMP_DIR_PATH + " is not a directory");
-        }
-        String realPath = getServletContext().getRealPath(DESTINATION_DIR_PATH);
-        destinationDir = new File(realPath);
-        if (!destinationDir.isDirectory()) {
-            throw new ServletException(DESTINATION_DIR_PATH + " is not a directory");
-        }
     }
-    
-
-    
 
     private enum PageAction {
 
