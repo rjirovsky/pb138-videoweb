@@ -1,2 +1,26 @@
+<%@ page pageEncoding="UTF-8" %>
+<div style="float:right;">
+    <h2>Vyhedávání</h2>
+    <form id="typeSearch">
+        <input type="submit" value="Vyhledat podle typu" name="typeSearch"/>
+        <select name="type">
+            <option>Originál</option>
+            <option>Časopis</option>
+            <option>Domácí</option>
+            <option>Kopie</option>
+        </select>
+    </form>
+    <form id="titleSearch">
+        <input type="submit" value="Vyhledat podle titulu" name="titleSearch"/>
+
+        <input type="text" name="title" id="title" />
+    </form>
+</div>
+<c:if test="${not empty message}">
+    <div class="success">
+        <c:out value="${message}"/>
+    </div>
+    <br />
+</c:if>
 <c:set var="msg" value="${xmlFile}" scope="page" />   
 <c:out value="${msg}" escapeXml="false"/>
