@@ -4,6 +4,7 @@
  */
 package cz.muni.fi.pb138.jaro2011.videoweb;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -106,10 +107,10 @@ public class VideoWebManagerImpl implements VideoWebManager {
      * 
      * @param name Name of spreadsheet to load 
      */
-    public void importDvdsFromODF(String name) {
+    public void importDvdsFromODF(File file) {
         
         try {
-            OdfDocument odfDoc = OdfDocument.loadDocument(name);                // loads whole document
+            OdfDocument odfDoc = OdfDocument.loadDocument(file);                // loads whole document
             List<OdfTable> OdfTables = new ArrayList(odfDoc.getTableList());
 
             for (int k = 0; k < OdfTables.size(); k++) {        // loading of single sheet
