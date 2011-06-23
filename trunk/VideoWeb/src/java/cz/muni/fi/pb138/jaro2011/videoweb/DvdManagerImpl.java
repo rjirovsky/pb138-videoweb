@@ -97,7 +97,7 @@ public class DvdManagerImpl implements DvdManager {
         if (dvd == null) {
             throw new IllegalArgumentException("DVD cannot be null!");
         }
-
+        
         Collection col = null;
 
         try {
@@ -109,11 +109,12 @@ public class DvdManagerImpl implements DvdManager {
 
             CompiledExpression compiled = xqs.compile("update replace //dvd[@id = '" + dvd.getId() + "'] with " + dvdToXml(dvd));
             ResourceSet result = xqs.execute(compiled);
-
+           
             
 
         } catch (XMLDBException ex) {
-            Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE, "Chyba při editaci dvd!", ex);
+            throw new RuntimeException("Chyba při editaci dvd!", ex);
         } finally {
             //dont forget to cleanup
             if (col != null) {
@@ -122,6 +123,7 @@ public class DvdManagerImpl implements DvdManager {
                 } catch (XMLDBException ex) {
                     Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE,
                             "Chyba při uvolňování zdrojů!", ex);
+                    throw new RuntimeException("Chyba při uvolňování zdrojů!", ex);
                 }
             }
         }
@@ -141,10 +143,11 @@ public class DvdManagerImpl implements DvdManager {
 
             CompiledExpression compiled = xqs.compile("update delete //dvd[name = '" + name + "']");
             ResourceSet result = xqs.execute(compiled);
-           
+            
 
         } catch (XMLDBException ex) {
             Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE, "Chyba při mazání dvd!", ex);
+            throw new RuntimeException("Chyba při mazání dvd!", ex);
         } finally {
             //dont forget to cleanup
             if (col != null) {
@@ -153,6 +156,7 @@ public class DvdManagerImpl implements DvdManager {
                 } catch (XMLDBException ex) {
                     Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE,
                             "Chyba při uvolňování zdrojů!", ex);
+                    throw new RuntimeException("Chyba při uvolňování zdrojů!", ex);
                 }
             }
         }
@@ -172,10 +176,11 @@ public class DvdManagerImpl implements DvdManager {
 
             CompiledExpression compiled = xqs.compile("update delete //dvd[@id = '" + id + "']");
             ResourceSet result = xqs.execute(compiled);
-           
+            Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.INFO, "Dvd bylo odstraněno.");
 
         } catch (XMLDBException ex) {
             Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE, "Chyba při mazání dvd!", ex);
+            throw new RuntimeException("Chyba při mazání dvd!", ex);
         } finally {
             //dont forget to cleanup
             if (col != null) {
@@ -184,6 +189,7 @@ public class DvdManagerImpl implements DvdManager {
                 } catch (XMLDBException ex) {
                     Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE,
                             "Chyba při uvolňování zdrojů!", ex);
+                    throw new RuntimeException("Chyba při uvolňování zdrojů!", ex);
                 }
             }
         }
@@ -219,6 +225,7 @@ public class DvdManagerImpl implements DvdManager {
                 } catch (XMLDBException ex) {
                     Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE,
                             "Chyba při uvolňování zdrojů!", ex);
+                    throw new RuntimeException("Chyba při uvolňování zdrojů!", ex);
                 }
             }
             return dvd;
@@ -241,6 +248,7 @@ public class DvdManagerImpl implements DvdManager {
 
         } catch (XMLDBException ex) {
             Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE, "Chyba při získávání dat z DB!", ex);
+            throw new RuntimeException( "Chyba při získávání dat z DB!", ex);
         } finally {
             if (col != null) {
                 try {
@@ -248,6 +256,7 @@ public class DvdManagerImpl implements DvdManager {
                 } catch (XMLDBException ex) {
                     Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE,
                             "Chyba při uvolňování zdrojů!", ex);
+                    throw new RuntimeException("Chyba při uvolňování zdrojů!", ex);
                 }
             }
             return allDvds;
@@ -288,6 +297,7 @@ public class DvdManagerImpl implements DvdManager {
                 } catch (XMLDBException ex) {
                     Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE,
                             "Chyba při uvolňování zdrojů!", ex);
+                    throw new RuntimeException("Chyba při uvolňování zdrojů!", ex);
                 }
             }
             return dvd;
@@ -327,6 +337,7 @@ public class DvdManagerImpl implements DvdManager {
                 } catch (XMLDBException ex) {
                     Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE,
                             "Chyba při uvolňování zdrojů!", ex);
+                    throw new RuntimeException("Chyba při uvolňování zdrojů!", ex);
                 }
             }
             return dvd;
@@ -362,6 +373,7 @@ public class DvdManagerImpl implements DvdManager {
                 } catch (XMLDBException ex) {
                     Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.SEVERE,
                             "Chyba při uvolňování zdrojů!", ex);
+                    throw new RuntimeException("Chyba při uvolňování zdrojů!", ex);
                 }
             }
             return dvd;
