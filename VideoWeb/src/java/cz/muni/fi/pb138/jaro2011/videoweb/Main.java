@@ -20,6 +20,7 @@ import org.w3c.dom.NodeList;
 import org.xmldb.api.base.XMLDBException;
 
 /**
+ * ONLY FOR TESTING PURPOSES!!!!!!!
  *
  * @author radek
  */
@@ -33,7 +34,7 @@ public class Main {
 
             //printDocument(dm.getAllDvds());
 
-            //printDocument(dm.getDvdById(-2));
+            //printDocument(dm.getDvdById(32));
 
             //printDocument(dm.getDvdByType(Type.ORIGINAL));
 
@@ -41,27 +42,27 @@ public class Main {
             
             //printDocument(dm.getDvdByTitle(null));
             
-            Dvd dvd = new Dvd();
-            dvd.setId(3);
-            dvd.setName("Top Gear Specials");
-            dvd.setType(Type.MAGAZINE);
-            List<Track> titles = new ArrayList<Track>();
-            Track t1 = new Track();
-            Track t2 = new Track();
-            t1.setName("Bolivia");
+//            Dvd dvd = new Dvd();
+//            dvd.setId(65);
+//            dvd.setName("Triple");
+//            dvd.setType(Type.ORIGINAL);
+//            List<Track> titles = new ArrayList<Track>();
+//            Track t1 = new Track();
+//            Track t2 = new Track();
+//            t1.setName("XXX");
+//            t1.setLeadActor("Vin Diesel");
+//            t2.setName("XXX: Nová dimenze");
+//            t2.setLeadActor("Ice Cube");
+//            titles.add(t1);
+//            titles.add(t2);
+//            dvd.setTrackList(titles);
             
-            t2.setName("Vietnam");
-            t2.setLeadActor("James May");
-            titles.add(t1);
-            titles.add(t2);
-            dvd.setTrackList(titles);
-            //System.out.println(dm.dvdToXml(dvd));
             //dm.createDvd(dvd);
 //            
-            dm.updateDvd(dvd);
+//            dm.updateDvd(dvd);
             
-            //dm.deleteDvd("2");
-            printDocument(dm.getAllDvds());
+            //dm.deleteDvd("XXX");
+            //printDocument(dm.getAllDvds());
 
             System.out.println("Konec programu.");
 
