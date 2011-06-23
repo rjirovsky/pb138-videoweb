@@ -9,6 +9,7 @@
 <% 
     boolean home = false;
     boolean actionSet = true;
+    
     if(request.getParameter("action") == null){
         actionSet = false;
         response.sendRedirect("VideoWebServlet?action=home");
@@ -44,7 +45,7 @@
                     <%@ include file="jspf/welcome.jspf"%>
                 <%} if(request.getParameter("action").matches("add")){%>
                     <%@ include file="jspf/add.jspf"%>
-                <%} if(request.getParameter("action").matches("library")){%>
+                <%} if(request.getParameter("action").matches("library") || request.getParameter("action").matches("delete")){%>
                     <%@ include file="jspf/library.jspf"%>
 
                 <%} if(request.getParameter("action").matches("import")){%>

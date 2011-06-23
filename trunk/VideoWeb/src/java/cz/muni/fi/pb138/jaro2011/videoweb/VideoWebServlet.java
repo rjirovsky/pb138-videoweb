@@ -42,9 +42,9 @@ public class VideoWebServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+       
         PageAction pageAction = Enum.valueOf(PageAction.class, request.getParameter("action"));
-
+        
         switch (pageAction) {
 
             case home: {
@@ -54,10 +54,12 @@ public class VideoWebServlet extends HttpServlet {
             case add: {
                 doAdd(request, response);
                 break;
-            } case library: {
+            }
+            case library: {
                 doLibrary(request, response);
                 break;
-            } case delete: {
+            }
+            case delete: {
                 doDeleteDvd(request, response);
             }
             default: {
@@ -203,8 +205,31 @@ public class VideoWebServlet extends HttpServlet {
     }
 
     private void doDeleteDvd(HttpServletRequest request, HttpServletResponse response) {
-        
+        try {
+
+
+            long id = Long.parseLong(request.getParameter("Id"));
+            dm = new DvdManagerImpl();
+            dm.deleteDvd(id);
+            request.setAttribute("message", "Dvd bylo úspěšně smazáno.");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("message", "Chyba při mazání DVD.");
+        } catch (InstantiationException ex) {
+            Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("message", "Chyba při mazání DVD.");
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("message", "Chyba při mazání DVD.");
+        } catch (XMLDBException ex) {
+            Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("message", "Chyba při mazání DVD.");
+        } catch (NumberFormatException ex) {
+            request.setAttribute("message", "Chyba při mazání DVD.");
+        } finally {
+           doLibrary(request, response);
         }
+    }
 
     private enum PageAction {
 
