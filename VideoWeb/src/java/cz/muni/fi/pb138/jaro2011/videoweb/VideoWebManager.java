@@ -22,6 +22,6 @@ public interface VideoWebManager {
     
     public Node getAllDvds();
     
-    public void importDvdsFromODF(String name);
+    public void importDvdsFromODF(File file);
     
 }
