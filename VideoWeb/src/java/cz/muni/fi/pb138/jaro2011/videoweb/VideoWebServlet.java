@@ -36,6 +36,8 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.xmldb.api.base.XMLDBException;
 
 /**
@@ -76,9 +78,15 @@ public class VideoWebServlet extends HttpServlet {
             }
             case delete: {
                 doDeleteDvd(request, response);
+                break;
             }
             case importODF: {
                 doImport(request, response);
+                break;
+            }
+            case edit: {
+                doEdit(request, response);
+                break;
             }
             default: {
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
@@ -161,26 +169,11 @@ public class VideoWebServlet extends HttpServlet {
     }// </editor-fold>
 
     private void doHome(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String cc = "5";
-        request.setAttribute("dvdCount", cc);
-        request.getRequestDispatcher("/index.jsp").forward(request, response);
-    }
-
-    private void doLibrary(HttpServletRequest request, HttpServletResponse response) {
         try {
             dm = new DvdManagerImpl();
-
-            Document doc = dm.getAllDvds();
-            DOMSource domSource = new DOMSource(doc);
-
-            String xmlFile = transformToString(domSource);
-            request.setAttribute("xmlFile", xmlFile);
+            String cc = "" + dm.getDvdCount();
+            request.setAttribute("dvdCount", cc);
             request.getRequestDispatcher("/index.jsp").forward(request, response);
-
-        } catch (ServletException ex) {
-            Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
@@ -189,6 +182,102 @@ public class VideoWebServlet extends HttpServlet {
             Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (XMLDBException ex) {
             Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void doLibrary(HttpServletRequest request, HttpServletResponse response) {
+        if (request.getMethod().equals("GET")) {
+            try {
+                dm = new DvdManagerImpl();
+
+                Document doc = dm.getAllDvds();
+
+                int count = getDvdCountFromDocument(doc);
+                request.setAttribute("countDvdMessage", "Nalezeno " + count + " dvd.");
+
+                DOMSource domSource = new DOMSource(doc);
+
+                String xmlFile = transformToString(domSource);
+                request.setAttribute("xmlFile", xmlFile);
+                request.getRequestDispatcher("/index.jsp").forward(request, response);
+
+            } catch (ServletException ex) {
+                Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InstantiationException ex) {
+                Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (XMLDBException ex) {
+                Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            if (request.getParameter("search").equals("type")) {
+                try {
+                    String typeString = request.getParameter("type");
+                    Type typeToSearch = Type.valueOf(typeString);
+                    dm = new DvdManagerImpl();
+
+                    Document doc = dm.getDvdByType(typeToSearch);
+
+                    int count = getDvdCountFromDocument(doc);
+                    request.setAttribute("countDvdMessage", "Nalezeno " + count + " dvd.");
+
+                    DOMSource domSource = new DOMSource(doc);
+
+                    String xmlFile = transformToString(domSource);
+                    request.setAttribute("xmlFile", xmlFile);
+                    request.getRequestDispatcher("/index.jsp").forward(request, response);
+                } catch (ServletException ex) {
+                    Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InstantiationException ex) {
+                    Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (XMLDBException ex) {
+                    Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                try {
+                    String searchString = request.getParameter("title");
+                    dm = new DvdManagerImpl();
+                    Document doc = null;
+                    if (searchString.isEmpty()) {
+                        doc = dm.getAllDvds();
+                    } else {
+                        doc = dm.getDvdByTitle(searchString);
+                    }
+
+                    int count = getDvdCountFromDocument(doc);
+                    request.setAttribute("countDvdMessage", "Nalezeno " + count + " dvd.");
+
+                    DOMSource domSource = new DOMSource(doc);
+
+                    String xmlFile = transformToString(domSource);
+                    request.setAttribute("xmlFile", xmlFile);
+                    request.getRequestDispatcher("/index.jsp").forward(request, response);
+                } catch (ServletException ex) {
+                    Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InstantiationException ex) {
+                    Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (XMLDBException ex) {
+                    Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
         }
     }
 
@@ -228,6 +317,20 @@ public class VideoWebServlet extends HttpServlet {
             dm = new DvdManagerImpl();
             dm.deleteDvd(id);
             request.setAttribute("message", "Dvd bylo úspěšně smazáno.");
+            Document doc = dm.getAllDvds();
+
+            int count = getDvdCountFromDocument(doc);
+            request.setAttribute("countDvdMessage", "Nalezeno " + count + " dvd.");
+
+            DOMSource domSource = new DOMSource(doc);
+
+            String xmlFile = transformToString(domSource);
+            request.setAttribute("xmlFile", xmlFile);
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
+        } catch (ServletException ex) {
+            Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
             request.setAttribute("message", "Chyba při mazání DVD.");
@@ -242,56 +345,83 @@ public class VideoWebServlet extends HttpServlet {
             request.setAttribute("message", "Chyba při mazání DVD.");
         } catch (NumberFormatException ex) {
             request.setAttribute("message", "Chyba při mazání DVD.");
-        } finally {
-            doLibrary(request, response);
         }
     }
 
     private void doImport(HttpServletRequest request, HttpServletResponse response) {
-        if (ServletFileUpload.isMultipartContent(request)) {
-            try {
-                ServletFileUpload servletFileUpload = new ServletFileUpload(new DiskFileItemFactory());
-                List fileItemsList = servletFileUpload.parseRequest(request);
 
-                FileItem fileItem = null;
+        if (request.getMethod().equals("POST")) {
+            if (ServletFileUpload.isMultipartContent(request)) {
+                try {
+                    ServletFileUpload servletFileUpload = new ServletFileUpload(new DiskFileItemFactory());
+                    List fileItemsList = servletFileUpload.parseRequest(request);
 
-                Iterator it = fileItemsList.iterator();
-                while (it.hasNext()) {
-                    FileItem fileItemTemp = (FileItem) it.next();
-                    if (!fileItemTemp.isFormField()) {
-                        fileItem = fileItemTemp;
+                    FileItem fileItem = null;
+
+                    Iterator it = fileItemsList.iterator();
+                    while (it.hasNext()) {
+                        FileItem fileItemTemp = (FileItem) it.next();
+                        if (!fileItemTemp.isFormField()) {
+                            fileItem = fileItemTemp;
+                        }
+                    }
+
+                    if (fileItem != null) {
+                        String fileName = fileItem.getName();
+
+                        /* Save the uploaded file if its size is greater than 0. */
+                        if (fileItem.getSize() > 0) {
+
+                            String dirName = "";
+
+                            File saveTo = new File(dirName + fileName);
+
+                            fileItem.write(saveTo);
+
+                            VideoWebManagerImpl vwm = new VideoWebManagerImpl();
+                            vwm.importDvdsFromODF(saveTo);
+
+                            request.setAttribute("message", "Soubor ODS úspěšně importován");
+
+                        }
+                    }
+                } catch (Exception ex) {
+                    try {
+                        Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+                        request.setAttribute("message", "Chyba při nahrávání souboru.");
+                        request.getRequestDispatcher("/index.jsp").forward(request, response);
+                    } catch (ServletException ex1) {
+                        Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex1);
+                    } catch (IOException ex1) {
+                        Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex1);
                     }
                 }
-
-                if (fileItem != null) {
-                    String fileName = fileItem.getName();
-
-                    /* Save the uploaded file if its size is greater than 0. */
-                    if (fileItem.getSize() > 0) {
-
-                        String dirName = "";
-
-                        File saveTo = new File(dirName + fileName);
-
-                        fileItem.write(saveTo);
-
-                        VideoWebManagerImpl vwm = new VideoWebManagerImpl();
-                        vwm.importDvdsFromODF(saveTo);
-
-                        request.setAttribute("message", "Soubor ODS úspěšně importován");
-
-
-                    }
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
-                request.setAttribute("message", "Chyba při nahrávání souboru.");
             }
+        }
+        try {
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
+        } catch (ServletException ex) {
+            Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
+
+    }
+
+    private void doEdit(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            request.setAttribute("message", "Editace nepodporovana! Aspon vtip by tu byl: "
+                    + "Jdou dva a prostredni spadne.");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
+        } catch (ServletException ex) {
+            Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private enum PageAction {
@@ -338,5 +468,14 @@ public class VideoWebServlet extends HttpServlet {
                 return "importODF";
             }
         }
+    }
+
+    private int getDvdCountFromDocument(Document doc) {
+        int count = 0;
+        if (doc != null) {
+            NodeList dvdNodeList = doc.getElementsByTagName("dvd");
+            count = dvdNodeList.getLength();
+        }
+        return count;
     }
 }

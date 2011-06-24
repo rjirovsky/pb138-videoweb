@@ -1,20 +1,28 @@
 <%@ page pageEncoding="UTF-8" %>
 <div style="float:right;">
     <h2>Vyhedávání</h2>
-    <form id="typeSearch">
+    <form id="typeSearch" action="VideoWebServlet?action=library&search=type" method="POST">
         <input type="submit" value="Vyhledat podle typu" name="typeSearch"/>
         <select name="type">
-            <option>Originál</option>
-            <option>Časopis</option>
-            <option>Domácí</option>
-            <option>Kopie</option>
+            <option value="ORIGINAL">originál</option>
+            <option value="MAGAZINE">časopis</option>
+            <option value="HOME">domácí</option>
+            <option value="COPY">kopie</option>
         </select>
     </form>
-    <form id="titleSearch">
+    <form id="titleSearch" action="VideoWebServlet?action=library&search=title" method="POST">
         <input type="submit" value="Vyhledat podle titulu" name="titleSearch"/>
 
         <input type="text" name="title" id="title" />
     </form>
+    <p>
+        <a href="VideoWebServlet?action=library">Reset</a>
+    </p>   
+    <c:if test="${not empty countDvdMessage}">
+        <div class="success">
+            <c:out value="${countDvdMessage}"/>
+        </div>  
+    </c:if>  
 </div>
 <c:if test="${not empty message}">
     <div class="success">
