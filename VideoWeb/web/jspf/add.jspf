@@ -10,8 +10,9 @@
 <fieldset id="addDVD">
     <legend>Nové DVD</legend>
     <form id="addDVDForm" action="VideoWebServlet?action=add" method="POST" onsubmit="return validateForm()">
+        <c:if test="${not empty editID}"><input type="hidden" value="${editID}" name="editedID" id="editedID" /></c:if>
         <label for="dvdName">Jméno: </label>
-        <input value="" type="text" name="name" id="dvdName"/>
+        <input value="${name}" type="text" name="name" id="dvdName"/>
         <br/>
         <label for="type">Typ: </label>
         <select name="type" id="type">
@@ -24,17 +25,20 @@
         <br/>
         <fieldset id="titles">
             <legend>Tituly</legend>
-            <input type="hidden" name="titleCounter" id="titleCounter" value="1"/>
+            <c:if test="${empty tracks}"><c:set var="tracks" value="0"></c:set></c:if>
+            <input type="hidden" name="titleCounter" id="titleCounter" value="${tracks}"/>
             <input type="button" value="Přidat titul" onclick="addField('titleName_', 'titleRepresentative_','titles', 0);" />
             <input type="button" value="Odebrat titul" onclick="removeField();" />
             <br/>
-            <div class="titleInput">
-                <label for="titleName_1">Název: </label>
-                <input type="text" name="titleName_1" id="titleName_1"/>
-                <label for="titleRepresentative_1">Hlavní představitel: </label>                      
-                <input type="text" name="titleRepresentative_1" id="titleRepresentative_1"/>
-                <br/>
-            </div>
+            <c:forEach items="${tracklist}" var="track" varStatus="iter">
+                <div class="titleInput">
+                    <label for="titleName_${iter.count}">Název: </label>
+                    <input type="text" name="titleName_${iter.count}" id="titleName_${iter.count}" value="${track.name}"/>
+                    <label for="titleRepresentative_${iter.count}">Hlavní představitel: </label>                      
+                    <input type="text" name="titleRepresentative_${iter.count}" id="titleRepresentative_${iter.count}" value="${track.actor}"/>
+                    <br/>
+                </div>
+            </c:forEach>
         </fieldset>
         <input type="submit" value="Odeslat"/>
         <input type="reset" value="Reset"/>

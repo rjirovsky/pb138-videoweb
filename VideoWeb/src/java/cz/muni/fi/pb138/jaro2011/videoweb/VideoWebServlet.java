@@ -13,8 +13,10 @@ import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletConfig;
@@ -98,10 +100,14 @@ public class VideoWebServlet extends HttpServlet {
     private void doAdd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getMethod().equals("POST")) {
             try {
+                dm = new DvdManagerImpl();
+                // check if we are updating dvd and delete the previous version
+                if(request.getParameter("editedID")!=null){
+                    dm.deleteDvd(Long.parseLong(request.getParameter("editedID").toString()));
+                }
                 int titleCounter = Integer.parseInt(request.getParameter("titleCounter"));
                 Dvd dvd = getDvdFromRequest(request, titleCounter);
 
-                dm = new DvdManagerImpl();
                 dm.createDvd(dvd);
                 request.setAttribute("message", "Nové DVD uspěšně přidáno.");
             } catch (ClassNotFoundException ex) {
@@ -414,9 +420,38 @@ public class VideoWebServlet extends HttpServlet {
 
     private void doEdit(HttpServletRequest request, HttpServletResponse response) {
         try {
-            request.setAttribute("message", "Editace nepodporovana! Aspon vtip by tu byl: "
-                    + "Jdou dva a prostredni spadne.");
+            if (request.getParameter("action") != null) {
+                if (request.getParameter("action").matches("edit") && request.getParameter("Id") != null) {
+                    dm = new DvdManagerImpl();
+                    Dvd myDvd = new Dvd();
+                    myDvd = parseDvd(dm.getDvdById(Long.parseLong(request.getParameter("Id").toString())));
+                    request.setAttribute("editID", myDvd.getId());
+                    request.setAttribute("name", myDvd.getName());
+                    Map tempTrack;
+                    ArrayList list = new ArrayList();
+                    for (int i = 0; i < myDvd.getTrackList().size(); i++) {
+                        tempTrack = new HashMap();
+                        tempTrack.put("name", myDvd.getTrackList().get(i).getName());
+                        tempTrack.put("actor", myDvd.getTrackList().get(i).getLeadActor());
+                        list.add(tempTrack);
+                    }
+                    request.setAttribute("tracks", myDvd.getTrackList().size());
+                    request.setAttribute("tracklist", list);
+
+                    request.getRequestDispatcher("/index.jsp").forward(request, response);
+                }
+
+            }
             request.getRequestDispatcher("/index.jsp").forward(request, response);
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (XMLDBException ex) {
+            Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ServletException ex) {
             Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -424,6 +459,25 @@ public class VideoWebServlet extends HttpServlet {
         }
     }
 
+    private Dvd parseDvd(Document dvdXML) {
+        Dvd myDvd = new Dvd();
+        myDvd.setName(dvdXML.getElementsByTagName("name").item(0).getTextContent());
+        myDvd.setId(Long.parseLong(dvdXML.getElementsByTagName("dvd").item(0).getAttributes().getNamedItem("id").getTextContent()));
+        NodeList titles = dvdXML.getElementsByTagName("title");
+        List<Track> trackList = new ArrayList<Track>();
+        Track track;
+        for (int i = 0; i < titles.getLength(); i++) {
+            track = new Track();
+            track.setName(titles.item(i).getChildNodes().item(1).getTextContent());
+            if(titles.item(i).getChildNodes().item(3)!=null)
+                track.setLeadActor(titles.item(i).getChildNodes().item(3).getTextContent());
+            
+            trackList.add(track);
+        }
+        myDvd.setTrackList(trackList);
+        return myDvd;
+    }
+    
     private enum PageAction {
 
         home {

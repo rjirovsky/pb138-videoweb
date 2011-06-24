@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-   boolean home = false;
+   //boolean home = false;
    boolean actionSet = true;
 
    if(request.getParameter("action") == null){
@@ -43,11 +43,10 @@
                 <% if(actionSet){
                    if(request.getParameter("action").matches("home")){%>
                    <%@ include file="jspf/welcome.jspf"%>
-               <%} if(request.getParameter("action").matches("add")){%>
+               <%} if(request.getParameter("action").matches("add") || request.getParameter("action").matches("edit")){%>
                    <%@ include file="jspf/add.jspf"%>
-               <%} if(request.getParameter("action").matches("library")){%>
+               <%} if(request.getParameter("action").matches("library")||request.getParameter("action").matches("delete")){%>
                    <%@ include file="jspf/library.jspf"%>
-
                <%} if(request.getParameter("action").matches("importODF")){%>
                    <%@ include file="jspf/import.jspf"%>
                <%} }%>
