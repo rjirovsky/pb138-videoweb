@@ -14,7 +14,7 @@
          syntax recommendation http://www.w3.org/TR/xslt
     -->
 
-    <xsl:template match="dvd-library">
+    <xsl:template match="/">
         <!-- pro korektní zobrazení znaků při include v jsp -->
         
         <h1>Knihovna DVD</h1>
