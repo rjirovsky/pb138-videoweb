@@ -1,4 +1,3 @@
-VideoWeb DVD library vyžaduje pro správný běh:
-- Apache Tomcat 7.0 (např. integrovaný v NetBeans)
-- eXist 1.4 (výchozí umístění http://localhost:8080/exist/), v databázi v adresáři /db zavedený soubor dvd.xml, databáze ke stažení na webu projektu [http://exist-db.org/download.html exist]
-
+==VideoWeb DVD library vyžaduje pro správný běh:==
+  * Apache Tomcat 7.0 (např. integrovaný v NetBeans)
+  * eXist 1.4 (výchozí umístění http://localhost:8080/exist/), v databázi v adresáři /db zavedený soubor dvd.xml, databáze ke stažení na webu projektu [http://exist-db.org/download.html exist]
