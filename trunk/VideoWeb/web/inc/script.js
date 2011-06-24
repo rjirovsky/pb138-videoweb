@@ -80,6 +80,10 @@ function validateForm(){
         alert("Jméno dvd musí být vypln\u011bno");
         return false;
     }
+    if(document.getElementById("titleCounter").value == 0){
+        alert("Na dvd musí být alespo\u0148 jeden titul!");
+        return false;
+    }
     var i = 1;
     while(i <= counter){
         var titleName = document.getElementById("titleName_"+i).value;
