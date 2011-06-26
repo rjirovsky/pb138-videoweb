@@ -406,8 +406,8 @@ public class DvdManagerImpl implements DvdManager {
             col = DatabaseManager.getCollection(dbURI);
             XPathQueryService xpqs = (XPathQueryService) col.getService("XPathQueryService", "1.0");
             xpqs.setProperty("indent", "yes");
-            //XPath
-            ResourceSet result = xpqs.query("//dvd[titles/title/name = '" + title + "']");
+            //XPath case insensitive
+            ResourceSet result = xpqs.query("//dvd[titles/title/translate(name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZĚŠČŘŽÝÁÍÉŇÓŮÚŤĎ', 'abcdefghijklmnopqrstuvwxyzěščřžýáíéňóůúťď') = '" + title.toLowerCase() + "']");
             if (result.getSize() == 0) {
                 Logger.getLogger(DvdManagerImpl.class.getName()).log(Level.INFO, "Dvd nebylo nalezeno v DB!");
                 return null;
