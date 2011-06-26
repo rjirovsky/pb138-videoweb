@@ -29,7 +29,6 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 public class VideoWebServlet extends HttpServlet {
 
     private VideoWebManager vm;
-    private static final String xsltFile = "http://localhost:8084/VideoWeb/transform.xsl";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -37,7 +36,7 @@ public class VideoWebServlet extends HttpServlet {
 
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("utf-8");
-        
+
         PageAction pageAction = PageAction.home;
         try {
             pageAction = Enum.valueOf(PageAction.class, request.getParameter("action"));
@@ -85,7 +84,7 @@ public class VideoWebServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("utf-8");
-        
+
         PageAction pageAction = PageAction.home;
         try {
             pageAction = Enum.valueOf(PageAction.class, request.getParameter("action"));
@@ -129,10 +128,6 @@ public class VideoWebServlet extends HttpServlet {
 
     private void doAddPost(HttpServletRequest request, HttpServletResponse response) {
         try {
-            // check if we are updating dvd and delete the previous version
-            if (request.getParameter("editedID") != null) {
-                vm.deleteDvd(Long.parseLong(request.getParameter("editedID").toString()));
-            }
             int titleCounter = Integer.parseInt(request.getParameter("titleCounter"));
             Dvd dvd = getDvdFromRequest(request, titleCounter);
 
@@ -152,6 +147,7 @@ public class VideoWebServlet extends HttpServlet {
     }
 
     private void doAddGet(HttpServletRequest request, HttpServletResponse response) {
+        request.setAttribute("title", "přidat dvd");
         try {
             request.getRequestDispatcher("/index.jsp").forward(request, response);
         } catch (ServletException ex) {
@@ -182,7 +178,7 @@ public class VideoWebServlet extends HttpServlet {
             Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (RuntimeException ex) {
             request.setAttribute("message", "Nastala chyba.");
-            
+
         }
     }
 
@@ -243,6 +239,7 @@ public class VideoWebServlet extends HttpServlet {
         try {
             String cc = "" + vm.getDvdCount();
             request.setAttribute("dvdCount", cc);
+            request.setAttribute("title", "úvod");
             request.getRequestDispatcher("/index.jsp").forward(request, response);
         } catch (ServletException ex) {
             Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -259,7 +256,7 @@ public class VideoWebServlet extends HttpServlet {
 
             int count = getDvdCountFromDocumentString(xmlFile);
             request.setAttribute("countDvdMessage", "Nalezeno " + count + " dvd.");
-
+            request.setAttribute("title", "knihovna dvd");
             request.setAttribute("xmlFile", xmlFile);
             request.getRequestDispatcher("/index.jsp").forward(request, response);
         } catch (ServletException ex) {
@@ -268,7 +265,7 @@ public class VideoWebServlet extends HttpServlet {
             Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (RuntimeException ex) {
             request.setAttribute("message", "Nastala chyba.");
-        }        
+        }
     }
 
     private void doLibraryPost(HttpServletRequest request, HttpServletResponse response) {
@@ -305,7 +302,7 @@ public class VideoWebServlet extends HttpServlet {
     }
 
     private void doImport(HttpServletRequest request, HttpServletResponse response) {
-
+        request.setAttribute("title", "import dvd");
         if (request.getMethod().equals("POST")) {
             if (ServletFileUpload.isMultipartContent(request)) {
                 try {
@@ -325,7 +322,7 @@ public class VideoWebServlet extends HttpServlet {
                     if (fileItem != null) {
                         String fileName = fileItem.getName();
 
-                        /* Save the uploaded file if its size is greater than 0. */
+                        // Save the uploaded file if its size is greater than 0.
                         if (fileItem.getSize() > 0) {
 
                             String dirName = "";
@@ -369,35 +366,50 @@ public class VideoWebServlet extends HttpServlet {
     }
 
     private void doEdit(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            if (request.getParameter("action") != null) {
-                if (request.getParameter("action").matches("edit") && request.getParameter("Id") != null) {
-                    Dvd myDvd = new Dvd();
-                    myDvd = vm.getDvdById(Long.parseLong(request.getParameter("Id").toString()));
-                    request.setAttribute("editID", myDvd.getId());
-                    request.setAttribute("name", myDvd.getName());
-                    Map tempTrack;
-                    ArrayList list = new ArrayList();
-                    for (int i = 0; i < myDvd.getTrackList().size(); i++) {
-                        tempTrack = new HashMap();
-                        tempTrack.put("name", myDvd.getTrackList().get(i).getName());
-                        tempTrack.put("actor", myDvd.getTrackList().get(i).getLeadActor());
-                        list.add(tempTrack);
-                    }
-                    request.setAttribute("tracks", myDvd.getTrackList().size());
-                    request.setAttribute("tracklist", list);
-
-                    request.getRequestDispatcher("/index.jsp").forward(request, response);
-                }
-
+        if (request.getMethod().equals("POST")) {
+            try {
+                int titleCounter = Integer.parseInt(request.getParameter("titleCounter"));
+                Dvd dvd = getDvdFromRequest(request, titleCounter);
+                dvd.setId(Long.parseLong(request.getParameter("editedID")));
+                vm.editDvd(dvd);
+                request.setAttribute("message", "DVD úspěšně aktualizováno.");
+                request.getRequestDispatcher("/index.jsp").forward(request, response);
+            } catch (ServletException ex) {
+                Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, "DVD update error", ex);
+            } catch (IOException ex) {
+                Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, "DVD update error", ex);
             }
-            request.getRequestDispatcher("/index.jsp").forward(request, response);
-        } catch (ServletException ex) {
-            Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (RuntimeException ex) {
-            request.setAttribute("message", "Nastala chyba.");
+        } else {
+            try {
+                if (request.getParameter("action") != null) {
+                    if (request.getParameter("action").matches("edit") && request.getParameter("Id") != null) {
+                        Dvd myDvd = new Dvd();
+                        myDvd = vm.getDvdById(Long.parseLong(request.getParameter("Id").toString()));
+                        request.setAttribute("editID", myDvd.getId());
+                        request.setAttribute("name", myDvd.getName());
+                        Map tempTrack;
+                        ArrayList list = new ArrayList();
+                        for (int i = 0; i < myDvd.getTrackList().size(); i++) {
+                            tempTrack = new HashMap();
+                            tempTrack.put("name", myDvd.getTrackList().get(i).getName());
+                            tempTrack.put("actor", myDvd.getTrackList().get(i).getLeadActor());
+                            list.add(tempTrack);
+                        }
+                        request.setAttribute("tracks", myDvd.getTrackList().size());
+                        request.setAttribute("tracklist", list);
+
+                        request.getRequestDispatcher("/index.jsp").forward(request, response);
+                    }
+
+                }
+                request.getRequestDispatcher("/index.jsp").forward(request, response);
+            } catch (ServletException ex) {
+                Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (RuntimeException ex) {
+                request.setAttribute("message", "Nastala chyba.");
+            }
         }
     }
 

@@ -7,7 +7,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-   //boolean home = false;
    boolean actionSet = true;
 
    if(request.getParameter("action") == null){
@@ -28,7 +27,7 @@
    <body>
        <div id="wrapper">
            <div id="head">
-               <h1>VideoWeb</h1>
+               <h1>VideoWeb<c:if test="${not empty title}"> - ${title}</c:if></h1>
            </div>
            <div id="menu">
                <h3>Nabídka</h3>
@@ -52,9 +51,8 @@
                <%} }%>
            </div>
            <div id="footer">
-               PATA
+               Copyright &copy; 2011 <a href="http://code.google.com/p/pb138-videoweb/" target="_blank">VideoWeb developer team</a>
            </div>
-
        </div>
    </body>
 </html>

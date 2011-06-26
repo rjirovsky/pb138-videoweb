@@ -6,10 +6,26 @@
         Purpose of the stylesheet follows.
 */
 
-/* 
-   TODO customize this sample style
-   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
-*/
+/* --------- OBECNE STYLY --------- */
+/* hlaseni uspechu */
+.success{
+    background-color:#D1F8AB;
+    border: 2px solid #00FF33;
+    width:300px;
+    text-align: center;
+    padding:12px;
+    margin:0;
+}
+
+.infoBox{
+    border: 2px solid #E2E1CB;
+    background-color: #F8F7DE;
+    color: #1E5EB6;
+    width:300px;
+    text-align: center;
+    padding:12px;
+    margin:0;
+}
 
 /* --------- STYL VYPISU DVD --------- */
 .dvd { 
@@ -49,44 +65,31 @@
     float:right;
     border-bottom: 1px solid #E2E1CB;
     border-left: 1px solid #E2E1CB;
-    padding: 5px;
+    padding: 8px;
     background-color: #1E5EB6;
     color: #F8F7DE;
-    width: 50px;
+    width: 60px;
     text-align: center;
 }
-
-.success{
-	background-color:#D1F8AB;
-	border: 2px solid #00FF33;
-	width:300px;
-	text-align: justify;
-	margin:0;
-}
-/* ------------------ */
-
-
-
 
 /* --------- OBAL --------- */
 body{
     margin:0;
     padding:0;
-    border:0;			/* This removes the border around the viewport in old versions of IE */
+    border:0;
     width:100%;
     font-family: Palatino, sans-serif;
 
 }
 
 #wrapper {
-    	margin: 0;
-        background-image: url(bg.png);
-        background-repeat: repeat-y;
-        background-color: whitesmoke;
+    margin: 0;
+    background-image: url(bg.png);
+    background-repeat: repeat-y;
+    background-color: whitesmoke;
 }
 
 /* --------- HLAVIČKA STRÁNEK --------- */
-
 #head{
     background-color: #CB4F34;
     border-bottom: 1px solid #333;
@@ -109,12 +112,15 @@ body{
     text-decoration: none;
 }
 
+#menu a:hover{
+    text-decoration: underline;
+}
+
 #menu ul {
     list-style: none;
     margin-left: 0;
     padding-left: 0px;
 }
-
 
 /* --------- TĚLO STRÁNEK --------- */
 #content{
@@ -123,8 +129,6 @@ body{
     margin: 0 2em 0 160px;
 }
 
-
-
 /* --------- PATIČKA STRÁNEK --------- */
 #footer{
     clear: both;
@@ -132,15 +136,17 @@ body{
     padding: 1em;
     text-align: right;
     border-top: 1px solid #333;
+    color: black;
 }
 
+#footer a:visited{
+    color: black;
+}
 
-/*  */
+/* --------- FORMULÁŘ NA PŘIDÁNÍ DVD --------- */
 fieldset{
     border: 0px;
 }
-
-
 
 fieldset legend{
     text-decoration: underline;

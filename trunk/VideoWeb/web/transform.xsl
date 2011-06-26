@@ -10,14 +10,8 @@
 
 <xsl:stylesheet xmlns="" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xml:lang="en" version="1.0">
     <xsl:output method="xml" encoding="utf-8" omit-xml-declaration="yes"/>
-    <!-- TODO customize transformation rules
-         syntax recommendation http://www.w3.org/TR/xslt
-    -->
 
-    <xsl:template match="/">
-        <!-- pro korektní zobrazení znaků při include v jsp -->
-        
-        <h1>Knihovna DVD</h1>
+    <xsl:template match="/">        
         <xsl:choose>
             <xsl:when test="count(//dvd) = 0">
                 <h2>Nebyly nalezeny žádné DVD.</h2>

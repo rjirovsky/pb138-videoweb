@@ -19,7 +19,7 @@
         <a href="VideoWebServlet?action=library">Reset</a>
     </p>   
     <c:if test="${not empty countDvdMessage}">
-        <div class="success">
+        <div class="infoBox">
             <c:out value="${countDvdMessage}"/>
         </div>  
     </c:if>  

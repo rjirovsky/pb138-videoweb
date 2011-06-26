@@ -1,4 +1,3 @@
-<%-- any content can be specified here e.g.: --%>
 <%@ page pageEncoding="UTF-8" %>
 <c:if test="${not empty message}">
     <div class="success">
@@ -9,7 +8,7 @@
 
 <fieldset id="addDVD">
     <legend>Nové DVD</legend>
-    <form id="addDVDForm" action="VideoWebServlet?action=add" method="post" onsubmit="return validateForm()">
+    <form id="addDVDForm" action="VideoWebServlet?action=${param.action}" method="post" onsubmit="return validateForm()">
         <c:if test="${not empty editID}"><input type="hidden" value="${editID}" name="editedID" id="editedID" /></c:if>
         <label for="dvdName">Jméno: </label>
         <input value="${name}" type="text" name="name" id="dvdName"/>
