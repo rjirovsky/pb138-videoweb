@@ -3,9 +3,9 @@
 Program bude rozdělen do několika logických částí:
 
   # *DvdManager* - manažer práce s nativní XML databází ([http://exist-db.org/ eXist]) má na starosti přidávání, editaci, odebírání a výpis DVD z XML databáze, dále získávání záznamů podle zadaných kritérií pomocí XPath a XQuery. Získané záznamy budou vráceny v XML dokumentu (dat. typ Document).
-  # *VideoWebManager* - manažer DVD knihovny - ovládá DvdManager. Umožňuje import dat z ODF Spreadsheet dokumentu (pomocí [http://odftoolkit.org/projects/odfdom/pages/Home ODFDom OpenDocument API]).
+  # *VideoWebManager* - manažer DVD knihovny - ovládá DvdManager. Umožňuje import dat z ODF Spreadsheet dokumentu (pomocí [http://odftoolkit.org/projects/odfdom/pages/Home ODFDom OpenDocument API] a [http://xerces.apache.org/xerces2-j/ Xerces Java Parser]).
 
-  # *VideoWebServlet* - zpracovává vstupy od uživatele a generuje ze získaných dat od VideoWebManageru obsah JSP stránek  (výpisy nalezench DVD apod.).
+  # *VideoWebServlet* - zpracovává vstupy od uživatele a generuje ze získaných dat od VideoWebManageru obsah JSP stránek  (výpisy nalezených DVD apod.).
   # *JSP stránky:*
   * index.jsp - hlavní stránka s odkazy na další akce
   * library.jspf - výpis všech dvd, u kazdého dvd je možnost editace nebo smazání
