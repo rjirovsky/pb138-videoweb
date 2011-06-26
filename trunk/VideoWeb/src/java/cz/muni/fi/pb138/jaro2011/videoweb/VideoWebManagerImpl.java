@@ -5,13 +5,25 @@
 package cz.muni.fi.pb138.jaro2011.videoweb;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.transform.Templates;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 import org.odftoolkit.odfdom.doc.OdfDocument;
 import org.odftoolkit.odfdom.doc.table.OdfTable;
 import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 import org.xmldb.api.base.XMLDBException;
 
 /**
@@ -21,6 +33,7 @@ import org.xmldb.api.base.XMLDBException;
 public class VideoWebManagerImpl implements VideoWebManager {
 
     private DvdManagerImpl dvdManager;
+    private static final String xsltFile = "http://localhost:8084/VideoWeb/transform.xsl";
 
     /**
      * Constructor of VideoWebManagerImpl class 
@@ -65,8 +78,8 @@ public class VideoWebManagerImpl implements VideoWebManager {
      * @param dvd DVD to delete 
      */
     @Override
-    public void deleteDvd(Dvd dvd) {
-        dvdManager.deleteDvd(dvd.getId());
+    public void deleteDvd(long dvdId) {
+        dvdManager.deleteDvd(dvdId);
     }
 
     /**
@@ -76,10 +89,41 @@ public class VideoWebManagerImpl implements VideoWebManager {
      * @return Found DVDs
      */
     @Override
-    public Document getDvdByName(String name) {
-        return dvdManager.getDvdByName(name);
+    public String getDvdByTitle(String title) {
+        Document doc = dvdManager.getDvdByTitle(title);
+        DOMSource domSource = new DOMSource(doc);
+        String xmlFile = transformToString(domSource);
+        return xmlFile;
     }
 
+    @Override
+    public Dvd getDvdById(long dvdId) { 
+        Dvd dvd = new Dvd();
+        Document doc = dvdManager.getDvdById(dvdId);
+        dvd = parseDvd(doc);
+        return dvd;
+    }
+    
+    private Dvd parseDvd(Document dvdXML) {
+        Dvd myDvd = new Dvd();
+        myDvd.setName(dvdXML.getElementsByTagName("name").item(0).getTextContent());
+        myDvd.setId(Long.parseLong(dvdXML.getElementsByTagName("dvd").item(0).getAttributes().getNamedItem("id").getTextContent()));
+        NodeList titles = dvdXML.getElementsByTagName("title");
+        List<Track> trackList = new ArrayList<Track>();
+        Track track;
+        for (int i = 0; i < titles.getLength(); i++) {
+            track = new Track();
+            track.setName(titles.item(i).getChildNodes().item(1).getTextContent());
+            if (titles.item(i).getChildNodes().item(3) != null) {
+                track.setLeadActor(titles.item(i).getChildNodes().item(3).getTextContent());
+            }
+
+            trackList.add(track);
+        }
+        myDvd.setTrackList(trackList);
+        return myDvd;
+    }
+    
     /**
      * Finds DVDs with certain type
      * 
@@ -87,8 +131,11 @@ public class VideoWebManagerImpl implements VideoWebManager {
      * @return Found DVDs
      */
     @Override
-    public Document getDvdByType(Type type) {
-        return dvdManager.getDvdByType(type);
+    public String getDvdByType(Type type) {
+        Document doc = dvdManager.getDvdByType(type);
+        DOMSource domSource = new DOMSource(doc);
+        String xmlFile = transformToString(domSource);
+        return xmlFile;
     }
 
     /**
@@ -97,8 +144,50 @@ public class VideoWebManagerImpl implements VideoWebManager {
      * @return All DVDs
      */
     @Override
-    public Document getAllDvds() {
-        return dvdManager.getAllDvds();
+    public String getAllDvds() {        
+        Document doc = dvdManager.getAllDvds();
+        DOMSource domSource = new DOMSource(doc);
+        String xmlFile = transformToString(domSource);
+        return xmlFile; 
+    }
+    
+    private String transformToString(DOMSource domSource) {
+        InputStream is = null;
+        try {
+            URL url = new URL(xsltFile);
+            is = url.openStream();
+            final StreamSource styleSource = new StreamSource(is);
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Templates templates = tf.newTemplates(styleSource);
+            Transformer transformer = templates.newTransformer();
+            StringWriter sw = new StringWriter();
+            StreamResult sr = new StreamResult(sw);
+            transformer.transform(domSource, sr);
+            return sw.toString();
+        } catch (TransformerException ex) {
+            Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+            return "Error with XML DB has been reached.";
+        } catch (IOException ex) {
+            Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+            return "Error with XML DB has been reached.";
+        } finally {
+            try {
+                is.close();
+            } catch (IOException ex) {
+                Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+                return "Error with XML DB has been reached.";
+            }
+        }
+    }
+    
+    /**
+     * Returns the sum of dvds.
+     * 
+     * @return sum of dvds.
+     */
+    @Override
+    public int getDvdCount() {
+        return dvdManager.getDvdCount();
     }
 
     /**
