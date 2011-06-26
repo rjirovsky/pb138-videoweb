@@ -89,7 +89,7 @@ public class VideoWebManagerImpl implements VideoWebManager {
     /**
      * Find DVDs with certain movie
      * 
-     * @param name Name of movie to find
+     * @param title Name of movie to find
      * @return Found DVDs
      */
     @Override
@@ -100,6 +100,12 @@ public class VideoWebManagerImpl implements VideoWebManager {
         return xmlFile;
     }
 
+    /**
+     * Gets DVD by id
+     * 
+     * @param dvdId Id of DVD
+     * @return DVD with requested id
+     */
     @Override
     public Dvd getDvdById(long dvdId) { 
         Dvd dvd = new Dvd();
@@ -108,6 +114,12 @@ public class VideoWebManagerImpl implements VideoWebManager {
         return dvd;
     }
     
+    /**
+     * Parses document with DVDs
+     * 
+     * @param dvdXML document with DVDs
+     * @return DVD parsed DVD
+     */
     private Dvd parseDvd(Document dvdXML) {
         Dvd myDvd = new Dvd();
         myDvd.setName(dvdXML.getElementsByTagName("name").item(0).getTextContent());
@@ -154,7 +166,12 @@ public class VideoWebManagerImpl implements VideoWebManager {
         String xmlFile = transformToString(domSource);
         return xmlFile; 
     }
-    
+    /**
+     * Transforms DOMSource to string
+     * 
+     * @param domSource DOMSource to transform
+     * @return transformed string
+     */
     private String transformToString(DOMSource domSource) {
         InputStream is = null;
         try {
@@ -197,7 +214,7 @@ public class VideoWebManagerImpl implements VideoWebManager {
     /**
      * Imports DVDs from ODF spreadsheet 
      * 
-     * @param name Name of spreadsheet to load 
+     * @param file File to load 
      */
     @Override
     public void importDvdsFromODF(File file) throws RuntimeException {
