@@ -38,17 +38,21 @@ public class VideoWebManagerImpl implements VideoWebManager {
     /**
      * Constructor of VideoWebManagerImpl class 
      */
-    public VideoWebManagerImpl() {
+    public VideoWebManagerImpl() throws RuntimeException {
         try {
             dvdManager = new DvdManagerImpl();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(VideoWebManagerImpl.class.getName()).log(Level.SEVERE, "Chyba při vytváření dvdManageru", ex);
+            throw new RuntimeException(ex.getMessage());
         } catch (InstantiationException ex) {
             Logger.getLogger(VideoWebManagerImpl.class.getName()).log(Level.SEVERE, "Chyba při vytváření dvdManageru", ex);
+            throw new RuntimeException(ex.getMessage());
         } catch (IllegalAccessException ex) {
             Logger.getLogger(VideoWebManagerImpl.class.getName()).log(Level.SEVERE, "Chyba při vytváření dvdManageru", ex);
+            throw new RuntimeException(ex.getMessage());
         } catch (XMLDBException ex) {
             Logger.getLogger(VideoWebManagerImpl.class.getName()).log(Level.SEVERE, "Chyba při vytváření dvdManageru", ex);
+            throw new RuntimeException(ex.getMessage());
         }
     }
    
@@ -196,7 +200,7 @@ public class VideoWebManagerImpl implements VideoWebManager {
      * @param name Name of spreadsheet to load 
      */
     @Override
-    public void importDvdsFromODF(File file) {
+    public void importDvdsFromODF(File file) throws RuntimeException {
         
         try {
             OdfDocument odfDoc = OdfDocument.loadDocument(file);                // loads whole document
@@ -250,6 +254,7 @@ public class VideoWebManagerImpl implements VideoWebManager {
             }
         } catch (Exception ex) {
             Logger.getLogger(VideoWebManagerImpl.class.getName()).log(Level.SEVERE, "Chyba při importu z ODF spreadsheetu", ex);
+            throw new RuntimeException(ex.getMessage());
         }
     }    
 }
