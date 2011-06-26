@@ -13,14 +13,18 @@ public interface VideoWebManager {
     
     public void editDvd(Dvd dvd);
     
-    public void deleteDvd(Dvd dvd);
+    public void deleteDvd(long dvdId);
     
-    public Node getDvdByName(String name);
+    public String getDvdByTitle(String title);
     
-    public Node getDvdByType(Type type);
+    public Dvd getDvdById(long dvdId);
     
-    public Node getAllDvds();
+    public String getDvdByType(Type type);
+    
+    public String getAllDvds();
     
     public void importDvdsFromODF(File file);
+    
+    public int getDvdCount();
     
 }
