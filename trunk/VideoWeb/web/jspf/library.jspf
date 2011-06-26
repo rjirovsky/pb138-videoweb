@@ -1,7 +1,7 @@
 <%@ page pageEncoding="UTF-8" %>
 <div style="float:right;">
     <h2>Vyhedávání</h2>
-    <form id="typeSearch" action="VideoWebServlet?action=library&search=type" method="POST">
+    <form id="typeSearch" action="VideoWebServlet?action=library&#38;search=type" method="post">
         <input type="submit" value="Vyhledat podle typu" name="typeSearch"/>
         <select name="type">
             <option value="ORIGINAL">originál</option>
@@ -10,7 +10,7 @@
             <option value="COPY">kopie</option>
         </select>
     </form>
-    <form id="titleSearch" action="VideoWebServlet?action=library&search=title" method="POST">
+    <form id="titleSearch" action="VideoWebServlet?action=library&#38;search=title" method="post">
         <input type="submit" value="Vyhledat podle titulu" name="titleSearch"/>
 
         <input type="text" name="title" id="title" />

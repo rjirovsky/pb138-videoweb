@@ -9,7 +9,7 @@
 
 <fieldset id="addDVD">
     <legend>Nové DVD</legend>
-    <form id="addDVDForm" action="VideoWebServlet?action=add" method="POST" onsubmit="return validateForm()">
+    <form id="addDVDForm" action="VideoWebServlet?action=add" method="post" onsubmit="return validateForm()">
         <c:if test="${not empty editID}"><input type="hidden" value="${editID}" name="editedID" id="editedID" /></c:if>
         <label for="dvdName">Jméno: </label>
         <input value="${name}" type="text" name="name" id="dvdName"/>
@@ -27,7 +27,7 @@
             <legend>Tituly</legend>
             <c:if test="${empty tracks}"><c:set var="tracks" value="0"></c:set></c:if>
             <input type="hidden" name="titleCounter" id="titleCounter" value="${tracks}"/>
-            <input type="button" value="Přidat titul" onclick="addField('titleName_', 'titleRepresentative_','titles', 0);" />
+            <input type="button" value="Přidat titul" onclick="addField('titleName_', 'titleRepresentative_','titles');" />
             <input type="button" value="Odebrat titul" onclick="removeField();" />
             <br/>
             <c:forEach items="${tracklist}" var="track" varStatus="iter">

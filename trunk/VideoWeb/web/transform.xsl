@@ -32,9 +32,7 @@
         <div class="dvd">
             <div class="head">
                 <div class="name">
-                    <xsl:attribute name="id">
-                        <xsl:value-of select="@id"/>
-                    </xsl:attribute>
+                    <xsl:attribute name="id">dvd<xsl:value-of select="@id"/></xsl:attribute>
                     <xsl:value-of select="name"/>
                 </div>
                 <div class="type">
@@ -50,7 +48,7 @@
             </xsl:element>
             <xsl:element name="a">
                 <xsl:attribute name="href">VideoWebServlet?action=delete&#38;Id=<xsl:value-of select="@id"/></xsl:attribute>
-                <xsl:attribute name="onClick">return confirmDelete(<xsl:value-of select="@id"/>)</xsl:attribute>
+                <xsl:attribute name="onclick">return confirmDelete(<xsl:value-of select="@id"/>)</xsl:attribute>
                 <img src="inc/del.png" alt="delete" />
             </xsl:element>
         </div>

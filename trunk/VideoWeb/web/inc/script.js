@@ -5,7 +5,7 @@
 
 
 // Add more fields dynamically.
-function addField(field1, field2,area,limit) {
+function addField(field1, field2,area) {
     if(!document.getElementById) return; //Prevent older browsers from getting any further.
     var field_area = document.getElementById(area);
     var titleCounter = document.getElementById("titleCounter");
@@ -15,42 +15,37 @@ function addField(field1, field2,area,limit) {
     titleCounter.setAttribute("value", count);
     //If the maximum number of elements have been reached, exit the function.
     //		If the given limit is lower than 0, infinite number of fields can be created.
-    if(count > limit && limit > 0) return;
 
-    if(document.createElement) { //W3C Dom method.
-        var div = document.createElement("div");
-        var nameLabel = document.createElement("label");
-        var representativeLabel = document.createElement("label");
-        var name = document.createElement("input");
-        var representative = document.createElement("input");
-        // div
-        div.setAttribute("class", "titleInput");
-        // label name
-        nameLabel.htmlFor = field1+count;
-        nameLabel.textContent = "Název: ";
-        // name input tag
-        name.id = field1+count;
-        name.name = field1+count;
-        name.type = "text"; //Type of field - can be any valid input type like text,file,checkbox etc.
+    var div = document.createElement("div");
+    var nameLabel = document.createElement("label");
+    var representativeLabel = document.createElement("label");
+    var name = document.createElement("input");
+    var representative = document.createElement("input");
+    // div
+    div.setAttribute("class", "titleInput");
+    // label name
+    nameLabel.htmlFor = field1+count;
+    nameLabel.textContent = "Název: ";
+    // name input tag
+    name.id = field1+count;
+    name.name = field1+count;
+    name.type = "text"; //Type of field - can be any valid input type like text,file,checkbox etc.
+   
+    representativeLabel.htmlFor = field2+count;
+    representativeLabel.textContent = " Hlavní p\u0159edstavitel: ";
 
-        representativeLabel.htmlFor = field2+count;
-        representativeLabel.textContent = " Hlavní p\u0159edstavitel: ";
-
-        representative.id = field2+count;
-        representative.name = field2+count;
-        representative.type = "text"; //Type of field - can be any valid input type like text,file,checkbox etc.
+    representative.id = field2+count;
+    representative.name = field2+count;
+    representative.type = "text"; //Type of field - can be any valid input type like text,file,checkbox etc.
 
 
-        div.appendChild(nameLabel);
-        div.appendChild(name);
-        div.appendChild(representativeLabel);
-        div.appendChild(representative);
-        div.appendChild(document.createElement("br"));
-        field_area.appendChild(div);
+    div.appendChild(nameLabel);
+    div.appendChild(name);
+    div.appendChild(representativeLabel);
+    div.appendChild(representative);
+    div.appendChild(document.createElement("br"));
+    field_area.appendChild(div);
 
-    } else { //Older Method
-            field_area.innerHTML += "<li><input name='"+(field1+count)+"' id='"+(field1+count)+"' type='text' /></li>";
-    }
 }
 
 // Dynamicly remove items from a form
@@ -78,6 +73,7 @@ function validateForm(){
     
     if (name == ""){
         alert("Jméno dvd musí být vypln\u011bno");
+        document.getElementById("dvdName").focus();
         return false;
     }
     if(document.getElementById("titleCounter").value == 0){
@@ -89,6 +85,7 @@ function validateForm(){
         var titleName = document.getElementById("titleName_"+i).value;
         if (titleName == ""){
             alert("Musíte zadat jméno u titulu \u010d. "+i);
+            document.getElementById("titleName_"+i).focus();
             return false;
         }
         i++;
@@ -99,7 +96,7 @@ function validateForm(){
 
 // Confirm deletion dialog
 function confirmDelete(id){
-    var dvdName = document.getElementById(id).textContent;
+    var dvdName = document.getElementById("dvd"+id).textContent;
     
     return(confirm("Chcete opravdu smazat "+dvdName));
 }
