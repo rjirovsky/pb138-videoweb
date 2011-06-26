@@ -8,10 +8,10 @@ Program bude rozdělen do několika logických částí:
   # *VideoWebServlet* - zpracovává vstupy od uživatele a generuje ze získaných dat od VideoWebManageru obsah JSP stránek  (výpisy nalezench DVD apod.).
   # *JSP stránky:*
   * index.jsp - hlavní stránka s odkazy na další akce
-  * list.jsp - výpis všech dvd, u kazdého dvd je možnost editace nebo smazání
-  * add.jsp - formulář pro přidání nového dvd
-  * edit.jsp - formulář pro editaci dvd
-  * import.jsp - formulář s opendialogem pro výběr ODS souboru se seznamem dvd
+  * library.jspf - výpis všech dvd, u kazdého dvd je možnost editace nebo smazání
+  * add.jspf - formulář pro přidání nového dvd
+  * edit.jspf - formulář pro editaci dvd
+  * import.jspf - formulář s opendialogem pro výběr ODS souboru se seznamem dvd
   * případně další HTML stránky pro úpravu layoutu (header, footer, sidebar)
  
 
