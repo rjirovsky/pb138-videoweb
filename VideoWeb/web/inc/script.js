@@ -1,20 +1,12 @@
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
 // Add more fields dynamically.
 function addField(field1, field2,area) {
-    if(!document.getElementById) return; //Prevent older browsers from getting any further.
+    
     var field_area = document.getElementById(area);
     var titleCounter = document.getElementById("titleCounter");
     var count = 0;
     count = titleCounter.getAttribute("value");
     count++;
     titleCounter.setAttribute("value", count);
-    //If the maximum number of elements have been reached, exit the function.
-    //		If the given limit is lower than 0, infinite number of fields can be created.
 
     var div = document.createElement("div");
     var nameLabel = document.createElement("label");
@@ -45,7 +37,6 @@ function addField(field1, field2,area) {
     div.appendChild(representative);
     div.appendChild(document.createElement("br"));
     field_area.appendChild(div);
-
 }
 
 // Dynamicly remove items from a form
@@ -61,8 +52,6 @@ function removeField(){
     fieldSet.removeChild(someField[counter-1]);
     counter--
     titleCounter.setAttribute("value", counter);
-    
-    
 }
 
 // Validating add dvd input form
