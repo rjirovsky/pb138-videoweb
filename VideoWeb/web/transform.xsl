@@ -20,7 +20,7 @@
         <h1>Knihovna DVD</h1>
         <xsl:choose>
             <xsl:when test="count(//dvd) = 0">
-                <h2>Knihovna je prázdná</h2>
+                <h2>Nebyly nalezeny žádné DVD.</h2>
             </xsl:when>
             <xsl:otherwise> 
                 <xsl:apply-templates/>

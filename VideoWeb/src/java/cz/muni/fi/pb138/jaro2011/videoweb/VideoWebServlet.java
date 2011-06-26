@@ -138,6 +138,8 @@ public class VideoWebServlet extends HttpServlet {
 
             vm.addDvd(dvd);
             request.setAttribute("message", "Nové DVD uspěšně přidáno.");
+        } catch (RuntimeException ex) {
+            request.setAttribute("message", "Nastala chyba.");
         } finally {
             try {
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
@@ -178,6 +180,9 @@ public class VideoWebServlet extends HttpServlet {
             Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RuntimeException ex) {
+            request.setAttribute("message", "Nastala chyba.");
+            
         }
     }
 
@@ -197,6 +202,8 @@ public class VideoWebServlet extends HttpServlet {
             Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RuntimeException ex) {
+            request.setAttribute("message", "Nastala chyba.");
         }
     }
 
@@ -232,10 +239,18 @@ public class VideoWebServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void doHome(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String cc = "" + vm.getDvdCount();
-        request.setAttribute("dvdCount", cc);
-        request.getRequestDispatcher("/index.jsp").forward(request, response);
+    private void doHome(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            String cc = "" + vm.getDvdCount();
+            request.setAttribute("dvdCount", cc);
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
+        } catch (ServletException ex) {
+            Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RuntimeException ex) {
+            request.setAttribute("message", "Nastala chyba.");
+        }
     }
 
     private void doLibraryGet(HttpServletRequest request, HttpServletResponse response) {
@@ -251,7 +266,9 @@ public class VideoWebServlet extends HttpServlet {
             Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (RuntimeException ex) {
+            request.setAttribute("message", "Nastala chyba.");
+        }        
     }
 
     private void doLibraryPost(HttpServletRequest request, HttpServletResponse response) {
@@ -282,6 +299,8 @@ public class VideoWebServlet extends HttpServlet {
             Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NumberFormatException ex) {
             request.setAttribute("message", "Chyba při mazání DVD.");
+        } catch (RuntimeException ex) {
+            request.setAttribute("message", "Nastala chyba.");
         }
     }
 
@@ -377,6 +396,8 @@ public class VideoWebServlet extends HttpServlet {
             Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(VideoWebServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RuntimeException ex) {
+            request.setAttribute("message", "Nastala chyba.");
         }
     }
 
