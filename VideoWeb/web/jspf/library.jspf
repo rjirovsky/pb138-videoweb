@@ -1,6 +1,6 @@
 <%@ page pageEncoding="UTF-8" %>
 <div style="float:right;">
-    <h2>Vyhedávání</h2>
+    <h2>Vyhledávání</h2>
     <form id="typeSearch" action="VideoWebServlet?action=library&#38;search=type" method="post">
         <input type="submit" value="Vyhledat podle typu" name="typeSearch"/>
         <select name="type">
